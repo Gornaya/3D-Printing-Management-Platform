@@ -1,0 +1,24 @@
+{
+  "name": "3d-printing-management-platform",
+  "version": "1.0.0",
+  "description": "**3D Printing Management Platform** is a web-based application designed to manage the complete lifecycle of 3D printing orders.\r Users can upload 3D model files, request prints, and track order status. Admin manage the printing queue,oversee pricing, materials, and workflow.\r The system includes role-based access, automatic price calculation, order status tracking, and order history.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gornaya/3D-Printing-Management-Platform.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Gornaya/3D-Printing-Management-Platform/issues"
+  },
+  "homepage": "https://github.com/Gornaya/3D-Printing-Management-Platform#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  }
+}
