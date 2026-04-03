@@ -1,6 +1,6 @@
 import Animations from './Animations'
 import Filters from './Filters'
-import Utils from '../utils/Utils'
+import Utils from '~/utils/Utils'
 
 /**
  * ApexCharts Graphics Class for all drawing operations.

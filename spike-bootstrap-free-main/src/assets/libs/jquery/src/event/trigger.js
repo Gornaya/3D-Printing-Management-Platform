@@ -1,12 +1,12 @@
 define( [
-	"../core",
-	"../var/document",
-	"../data/var/dataPriv",
-	"../data/var/acceptData",
-	"../var/hasOwn",
-	"../var/isFunction",
-	"../var/isWindow",
-	"../event"
+	"~/core",
+	"~/var/document",
+	"~/data/var/dataPriv",
+	"~/data/var/acceptData",
+	"~/var/hasOwn",
+	"~/var/isFunction",
+	"~/var/isWindow",
+	"~/event"
 ], function( jQuery, document, dataPriv, acceptData, hasOwn, isFunction, isWindow ) {
 
 "use strict";

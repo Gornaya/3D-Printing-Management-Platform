@@ -1,5 +1,5 @@
-import Graphics from '../Graphics'
-import Utils from '../../utils/Utils'
+import Graphics from '~/Graphics'
+import Utils from '~/~/utils/Utils'
 import AxesUtils from './AxesUtils'
 
 /**

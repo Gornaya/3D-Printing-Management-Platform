@@ -1,5 +1,5 @@
 define( [
-	"../var/rnothtmlwhite"
+	"~/var/rnothtmlwhite"
 ], function( rnothtmlwhite ) {
 	"use strict";
 

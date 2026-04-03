@@ -1,6 +1,6 @@
 import Filters from './Filters'
 import Graphics from './Graphics'
-import Utils from '../utils/Utils'
+import Utils from '~/utils/Utils'
 
 /**
  * ApexCharts Markers Class for drawing points on y values in axes charts.

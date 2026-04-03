@@ -1,5 +1,5 @@
 import CoreUtils from './CoreUtils'
-import Utils from '../utils/Utils'
+import Utils from '~/utils/Utils'
 
 export default class Scales {
   constructor(ctx) {

@@ -1,5 +1,5 @@
-import DateTime from '../utils/DateTime'
-import Utils from '../utils/Utils'
+import DateTime from '~/utils/DateTime'
+import Utils from '~/utils/Utils'
 
 /**
  * ApexCharts Formatter Class for setting value formatters for axes as well as tooltips.

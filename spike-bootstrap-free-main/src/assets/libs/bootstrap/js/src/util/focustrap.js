@@ -5,8 +5,8 @@
  * --------------------------------------------------------------------------
  */
 
-import EventHandler from '../dom/event-handler.js'
-import SelectorEngine from '../dom/selector-engine.js'
+import EventHandler from '~/dom/event-handler.js'
+import SelectorEngine from '~/dom/selector-engine.js'
 import Config from './config.js'
 
 /**

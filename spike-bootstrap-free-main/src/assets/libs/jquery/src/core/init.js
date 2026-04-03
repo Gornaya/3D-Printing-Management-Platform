@@ -1,11 +1,11 @@
 // Initialize a jQuery object
 define( [
-	"../core",
-	"../var/document",
-	"../var/isFunction",
+	"~/core",
+	"~/var/document",
+	"~/var/isFunction",
 	"./var/rsingleTag",
 
-	"../traversing/findFilter"
+	"~/traversing/findFilter"
 ], function( jQuery, document, isFunction, rsingleTag ) {
 
 "use strict";

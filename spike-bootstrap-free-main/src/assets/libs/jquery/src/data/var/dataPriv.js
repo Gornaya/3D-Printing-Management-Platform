@@ -1,5 +1,5 @@
 define( [
-	"../Data"
+	"~/Data"
 ], function( Data ) {
 	"use strict";
 

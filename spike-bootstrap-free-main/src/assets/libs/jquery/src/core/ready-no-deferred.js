@@ -1,7 +1,7 @@
 define( [
-	"../core",
-	"../var/document",
-	"../var/isFunction"
+	"~/core",
+	"~/var/document",
+	"~/var/isFunction"
 ], function( jQuery, document, isFunction ) {
 
 "use strict";

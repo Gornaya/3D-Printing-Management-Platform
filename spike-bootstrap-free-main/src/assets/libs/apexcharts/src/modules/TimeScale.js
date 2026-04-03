@@ -1,7 +1,7 @@
-import DateTime from '../utils/DateTime'
+import DateTime from '~/utils/DateTime'
 import Dimensions from './dimensions/Dimensions'
 import Graphics from './Graphics'
-import Utils from '../utils/Utils'
+import Utils from '~/utils/Utils'
 
 const MINUTES_IN_DAY = 24 * 60
 const SECONDS_IN_DAY = MINUTES_IN_DAY * 60

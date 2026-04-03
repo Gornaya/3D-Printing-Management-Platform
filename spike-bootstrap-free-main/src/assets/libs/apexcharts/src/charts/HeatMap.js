@@ -1,9 +1,9 @@
-import Animations from '../modules/Animations'
-import Graphics from '../modules/Graphics'
-import Fill from '../modules/Fill'
-import Utils from '../utils/Utils'
+import Animations from '~/modules/Animations'
+import Graphics from '~/modules/Graphics'
+import Fill from '~/modules/Fill'
+import Utils from '~/utils/Utils'
 import Helpers from './common/treemap/Helpers'
-import Filters from '../modules/Filters'
+import Filters from '~/modules/Filters'
 
 /**
  * ApexCharts HeatMap Class.

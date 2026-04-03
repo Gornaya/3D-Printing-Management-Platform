@@ -1,6 +1,6 @@
 define( [
-	"../var/document",
-	"../var/support"
+	"~/var/document",
+	"~/var/support"
 ], function( document, support ) {
 
 "use strict";

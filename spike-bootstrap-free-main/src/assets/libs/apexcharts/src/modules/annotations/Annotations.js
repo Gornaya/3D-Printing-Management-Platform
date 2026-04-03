@@ -1,10 +1,10 @@
-import Graphics from '../../modules/Graphics'
-import Utils from '../../utils/Utils'
+import Graphics from '~/~/modules/Graphics'
+import Utils from '~/~/utils/Utils'
 import Helpers from './Helpers'
 import XAxisAnnotations from './XAxisAnnotations'
 import YAxisAnnotations from './YAxisAnnotations'
 import PointsAnnotations from './PointsAnnotations'
-import Options from './../settings/Options'
+import Options from './~/settings/Options'
 
 /**
  * ApexCharts Annotations Class for drawing lines/rects on both xaxis and yaxis.

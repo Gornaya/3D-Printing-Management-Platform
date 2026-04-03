@@ -1,5 +1,5 @@
-import CoreUtils from '../../../modules/CoreUtils'
-import Utils from '../../../utils/Utils'
+import CoreUtils from '~/~/~/modules/CoreUtils'
+import Utils from '~/~/~/utils/Utils'
 
 export default class Helpers {
   constructor(lineCtx) {

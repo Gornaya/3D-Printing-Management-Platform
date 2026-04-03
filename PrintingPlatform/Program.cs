@@ -1,3 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using PrintingPlatform.Data.Entities;
+using PrintingPlatform.Data;
+
 namespace PrintingPlatform;
 
 public class Program
@@ -6,10 +12,21 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddDbContext<PrintingPlatformContext>();
+
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
+        builder.Services.AddDbContext<PrintingPlatformContext>(options => options.UseLazyLoadingProxies()
+        .UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
         var app = builder.Build();
+
+        var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<PrintingPlatformContext>();
+        
+        DatabaseSeed.Seed(context);
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
@@ -22,6 +39,7 @@ public class Program
         app.UseHttpsRedirection();
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapStaticAssets();

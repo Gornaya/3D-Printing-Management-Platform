@@ -1,7 +1,7 @@
-import Fill from '../../../modules/Fill'
-import Graphics from '../../../modules/Graphics'
-import Series from '../../../modules/Series'
-import Utils from '../../../utils/Utils'
+import Fill from '~/~/~/modules/Fill'
+import Graphics from '~/~/~/modules/Graphics'
+import Series from '~/~/~/modules/Series'
+import Utils from '~/~/~/utils/Utils'
 
 export default class Helpers {
   constructor(barCtx) {

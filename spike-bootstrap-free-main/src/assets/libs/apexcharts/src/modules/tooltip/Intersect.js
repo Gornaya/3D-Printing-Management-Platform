@@ -1,4 +1,4 @@
-import Utils from '../../utils/Utils'
+import Utils from '~/~/utils/Utils'
 
 /**
  * ApexCharts Tooltip.Intersect Class.

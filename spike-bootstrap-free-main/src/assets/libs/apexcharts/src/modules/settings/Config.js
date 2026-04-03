@@ -1,5 +1,5 @@
 import Defaults from './Defaults'
-import Utils from './../../utils/Utils'
+import Utils from './~/~/utils/Utils'
 import Options from './Options'
 
 /**

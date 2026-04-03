@@ -1,9 +1,9 @@
-import Animations from '../modules/Animations'
-import Fill from '../modules/Fill'
-import Utils from '../utils/Utils'
-import Graphics from '../modules/Graphics'
-import Filters from '../modules/Filters'
-import Scales from '../modules/Scales'
+import Animations from '~/modules/Animations'
+import Fill from '~/modules/Fill'
+import Utils from '~/utils/Utils'
+import Graphics from '~/modules/Graphics'
+import Filters from '~/modules/Filters'
+import Scales from '~/modules/Scales'
 import Helpers from './common/circle/Helpers'
 /**
  * ApexCharts Pie Class for drawing Pie / Donut Charts.

@@ -1,7 +1,7 @@
-import Formatters from '../Formatters'
-import Graphics from '../Graphics'
-import Utils from '../../utils/Utils'
-import DateTime from '../../utils/DateTime'
+import Formatters from '~/Formatters'
+import Graphics from '~/Graphics'
+import Utils from '~/~/utils/Utils'
+import DateTime from '~/~/utils/DateTime'
 
 export default class DimXAxis {
   constructor(dCtx) {

@@ -1,6 +1,6 @@
-import Utils from '../../utils/Utils'
-import DateTime from '../../utils/DateTime'
-import Formatters from '../Formatters'
+import Utils from '~/~/utils/Utils'
+import DateTime from '~/~/utils/DateTime'
+import Formatters from '~/Formatters'
 
 /**
  * ApexCharts Default Class for setting default options for all chart types.

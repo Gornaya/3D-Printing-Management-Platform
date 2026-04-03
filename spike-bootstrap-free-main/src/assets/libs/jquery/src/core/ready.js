@@ -1,8 +1,8 @@
 define( [
-	"../core",
-	"../var/document",
-	"../core/readyException",
-	"../deferred"
+	"~/core",
+	"~/var/document",
+	"~/core/readyException",
+	"~/deferred"
 ], function( jQuery, document ) {
 
 "use strict";

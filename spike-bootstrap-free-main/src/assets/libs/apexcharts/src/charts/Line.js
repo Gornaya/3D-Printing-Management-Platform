@@ -1,12 +1,12 @@
-import CoreUtils from '../modules/CoreUtils'
-import Graphics from '../modules/Graphics'
-import Fill from '../modules/Fill'
-import DataLabels from '../modules/DataLabels'
-import Markers from '../modules/Markers'
+import CoreUtils from '~/modules/CoreUtils'
+import Graphics from '~/modules/Graphics'
+import Fill from '~/modules/Fill'
+import DataLabels from '~/modules/DataLabels'
+import Markers from '~/modules/Markers'
 import Scatter from './Scatter'
-import Utils from '../utils/Utils'
+import Utils from '~/utils/Utils'
 import Helpers from './common/line/Helpers'
-import { svgPath, spline } from '../libs/monotone-cubic'
+import { svgPath, spline } from '~/libs/monotone-cubic'
 /**
  * ApexCharts Line Class responsible for drawing Line / Area / RangeArea Charts.
  * This class is also responsible for generating values for Bubble/Scatter charts, so need to rename it to Axis Charts to avoid confusions

@@ -1,5 +1,5 @@
-import Graphics from '../../../modules/Graphics'
-import DataLabels from '../../../modules/DataLabels'
+import Graphics from '~/~/~/modules/Graphics'
+import DataLabels from '~/~/~/modules/DataLabels'
 
 export default class BarDataLabels {
   constructor(barCtx) {

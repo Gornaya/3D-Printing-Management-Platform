@@ -1,6 +1,6 @@
 define( [
-	"../var/class2type",
-	"../var/toString"
+	"~/var/class2type",
+	"~/var/toString"
 ], function( class2type, toString ) {
 
 "use strict";

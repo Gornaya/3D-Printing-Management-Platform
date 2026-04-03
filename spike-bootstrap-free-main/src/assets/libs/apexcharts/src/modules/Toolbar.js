@@ -1,14 +1,14 @@
 import Graphics from './Graphics'
 import Exports from './Exports'
 import Scales from './Scales'
-import Utils from './../utils/Utils'
-import icoPan from './../assets/ico-pan-hand.svg'
-import icoZoom from './../assets/ico-zoom-in.svg'
-import icoReset from './../assets/ico-home.svg'
-import icoZoomIn from './../assets/ico-plus.svg'
-import icoZoomOut from './../assets/ico-minus.svg'
-import icoSelect from './../assets/ico-select.svg'
-import icoMenu from './../assets/ico-menu.svg'
+import Utils from './~/utils/Utils'
+import icoPan from './~/assets/ico-pan-hand.svg'
+import icoZoom from './~/assets/ico-zoom-in.svg'
+import icoReset from './~/assets/ico-home.svg'
+import icoZoomIn from './~/assets/ico-plus.svg'
+import icoZoomOut from './~/assets/ico-minus.svg'
+import icoSelect from './~/assets/ico-select.svg'
+import icoMenu from './~/assets/ico-menu.svg'
 
 /**
  * ApexCharts Toolbar Class for creating toolbar in axis based charts.

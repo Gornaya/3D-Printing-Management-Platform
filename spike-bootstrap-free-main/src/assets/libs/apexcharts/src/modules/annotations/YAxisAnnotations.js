@@ -1,5 +1,5 @@
 import Helpers from './Helpers'
-import AxesUtils from '../axes/AxesUtils'
+import AxesUtils from '~/axes/AxesUtils'
 
 export default class YAnnotations {
   constructor(annoCtx) {

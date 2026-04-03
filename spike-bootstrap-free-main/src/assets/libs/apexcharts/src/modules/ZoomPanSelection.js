@@ -1,5 +1,5 @@
 import Graphics from './Graphics'
-import Utils from './../utils/Utils'
+import Utils from './~/utils/Utils'
 import Toolbar from './Toolbar'
 
 /**

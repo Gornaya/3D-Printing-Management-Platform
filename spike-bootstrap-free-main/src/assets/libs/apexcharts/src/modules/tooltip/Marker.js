@@ -1,7 +1,7 @@
-import Graphics from '../Graphics'
+import Graphics from '~/Graphics'
 import Position from './Position'
-import Markers from '../../modules/Markers'
-import Utils from '../../utils/Utils'
+import Markers from '~/~/modules/Markers'
+import Utils from '~/~/utils/Utils'
 
 /**
  * ApexCharts Tooltip.Marker Class to draw texts on the tooltip.

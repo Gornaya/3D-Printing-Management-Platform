@@ -1,7 +1,7 @@
 define( [
-	"../core",
-	"../core/toType",
-	"../core/isAttached",
+	"~/core",
+	"~/core/toType",
+	"~/core/isAttached",
 	"./var/rtagName",
 	"./var/rscriptType",
 	"./wrapMap",

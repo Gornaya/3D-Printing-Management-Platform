@@ -1,6 +1,6 @@
 import Bar from './Bar'
-import Graphics from '../modules/Graphics'
-import Utils from '../utils/Utils'
+import Graphics from '~/modules/Graphics'
+import Utils from '~/utils/Utils'
 
 /**
  * ApexCharts RangeBar Class responsible for drawing Range/Timeline Bars.

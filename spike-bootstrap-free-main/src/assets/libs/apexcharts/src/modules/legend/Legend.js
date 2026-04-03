@@ -1,10 +1,10 @@
-import CoreUtils from '../CoreUtils'
-import Dimensions from '../dimensions/Dimensions'
-import Graphics from '../Graphics'
-import Series from '../Series'
-import Utils from '../../utils/Utils'
+import CoreUtils from '~/CoreUtils'
+import Dimensions from '~/dimensions/Dimensions'
+import Graphics from '~/Graphics'
+import Series from '~/Series'
+import Utils from '~/~/utils/Utils'
 import Helpers from './Helpers'
-import Markers from '../Markers'
+import Markers from '~/Markers'
 
 /**
  * ApexCharts Legend Class to draw legend.

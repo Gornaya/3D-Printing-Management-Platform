@@ -1,9 +1,9 @@
 define( [
-	"../core",
-	"../var/isFunction",
+	"~/core",
+	"~/var/isFunction",
 	"./var/nonce",
 	"./var/rquery",
-	"../ajax"
+	"~/ajax"
 ], function( jQuery, isFunction, nonce, rquery ) {
 
 "use strict";

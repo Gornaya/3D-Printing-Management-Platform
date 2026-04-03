@@ -1,6 +1,6 @@
 define( [
-	"../core",
-	"../deferred"
+	"~/core",
+	"~/deferred"
 ], function( jQuery ) {
 
 "use strict";

@@ -1,7 +1,7 @@
-import Data from '../modules/Data'
-import AxesUtils from '../modules/axes/AxesUtils'
-import Series from '../modules/Series'
-import Utils from '../utils/Utils'
+import Data from '~/modules/Data'
+import AxesUtils from '~/modules/axes/AxesUtils'
+import Series from '~/modules/Series'
+import Utils from '~/utils/Utils'
 
 class Exports {
   constructor(ctx) {

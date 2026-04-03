@@ -1,6 +1,6 @@
 define( [
-	"../var/document",
-	"../core"
+	"~/var/document",
+	"~/core"
 ], function( document, jQuery ) {
 
 "use strict";

@@ -1,6 +1,6 @@
-import Utils from '../../../utils/Utils'
-import Graphics from '../../../modules/Graphics'
-import DataLabels from '../../../modules/DataLabels'
+import Utils from '~/~/~/utils/Utils'
+import Graphics from '~/~/~/modules/Graphics'
+import DataLabels from '~/~/~/modules/DataLabels'
 
 export default class TreemapHelpers {
   constructor(ctx) {

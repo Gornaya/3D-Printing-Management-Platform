@@ -1,7 +1,7 @@
 /**
  * ApexCharts Options for setting the initial configuration of ApexCharts
  **/
-import en from './../../locales/en.json'
+import en from './~/~/locales/en.json'
 
 export default class Options {
   constructor() {

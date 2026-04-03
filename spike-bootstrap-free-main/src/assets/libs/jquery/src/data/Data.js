@@ -1,7 +1,7 @@
 define( [
-	"../core",
-	"../core/camelCase",
-	"../var/rnothtmlwhite",
+	"~/core",
+	"~/core/camelCase",
+	"~/var/rnothtmlwhite",
 	"./var/acceptData"
 ], function( jQuery, camelCase, rnothtmlwhite, acceptData ) {
 

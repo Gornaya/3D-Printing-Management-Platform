@@ -1,7 +1,7 @@
-import Formatters from '../Formatters'
-import Graphics from '../Graphics'
-import CoreUtils from '../CoreUtils'
-import DateTime from '../../utils/DateTime'
+import Formatters from '~/Formatters'
+import Graphics from '~/Graphics'
+import CoreUtils from '~/CoreUtils'
+import DateTime from '~/~/utils/DateTime'
 
 export default class AxesUtils {
   constructor(ctx) {

@@ -1,7 +1,7 @@
 define( [
-	"../core",
-	"../var/document",
-	"../ajax"
+	"~/core",
+	"~/var/document",
+	"~/ajax"
 ], function( jQuery, document ) {
 
 "use strict";

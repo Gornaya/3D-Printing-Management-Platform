@@ -3,9 +3,9 @@ import Position from './Position'
 import Marker from './Marker'
 import Intersect from './Intersect'
 import AxesTooltip from './AxesTooltip'
-import Graphics from '../Graphics'
-import Series from '../Series'
-import XAxis from './../axes/XAxis'
+import Graphics from '~/Graphics'
+import Series from '~/Series'
+import XAxis from './~/axes/XAxis'
 import Utils from './Utils'
 
 /**

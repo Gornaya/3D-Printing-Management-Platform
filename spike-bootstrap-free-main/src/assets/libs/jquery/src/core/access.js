@@ -1,7 +1,7 @@
 define( [
-	"../core",
-	"../core/toType",
-	"../var/isFunction"
+	"~/core",
+	"~/core/toType",
+	"~/var/isFunction"
 ], function( jQuery, toType, isFunction ) {
 
 "use strict";

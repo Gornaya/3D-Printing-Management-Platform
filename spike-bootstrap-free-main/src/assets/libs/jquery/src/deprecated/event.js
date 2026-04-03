@@ -1,8 +1,8 @@
 define( [
-	"../core",
+	"~/core",
 
-	"../event",
-	"../event/trigger"
+	"~/event",
+	"~/event/trigger"
 ], function( jQuery ) {
 
 "use strict";

@@ -1,9 +1,9 @@
 define( [
-	"../core",
-	"../var/indexOf",
-	"../var/isFunction",
+	"~/core",
+	"~/var/indexOf",
+	"~/var/isFunction",
 	"./var/rneedsContext",
-	"../selector"
+	"~/selector"
 ], function( jQuery, indexOf, isFunction, rneedsContext ) {
 
 "use strict";

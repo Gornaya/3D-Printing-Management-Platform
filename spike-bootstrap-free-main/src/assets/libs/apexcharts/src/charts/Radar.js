@@ -1,11 +1,11 @@
-import Fill from '../modules/Fill'
-import Graphics from '../modules/Graphics'
-import Markers from '../modules/Markers'
-import DataLabels from '../modules/DataLabels'
-import Filters from '../modules/Filters'
-import Utils from '../utils/Utils'
+import Fill from '~/modules/Fill'
+import Graphics from '~/modules/Graphics'
+import Markers from '~/modules/Markers'
+import DataLabels from '~/modules/DataLabels'
+import Filters from '~/modules/Filters'
+import Utils from '~/utils/Utils'
 import Helpers from './common/circle/Helpers'
-import CoreUtils from '../modules/CoreUtils'
+import CoreUtils from '~/modules/CoreUtils'
 
 /**
  * ApexCharts Radar Class for Spider/Radar Charts.

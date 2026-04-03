@@ -1,7 +1,7 @@
-import CoreUtils from '../modules/CoreUtils'
+import CoreUtils from '~/modules/CoreUtils'
 import Bar from './Bar'
-import Graphics from '../modules/Graphics'
-import Utils from '../utils/Utils'
+import Graphics from '~/modules/Graphics'
+import Utils from '~/utils/Utils'
 
 /**
  * ApexCharts BarStacked Class responsible for drawing both Stacked Columns and Bars.

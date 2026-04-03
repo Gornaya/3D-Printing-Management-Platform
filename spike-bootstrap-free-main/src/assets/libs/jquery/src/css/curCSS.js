@@ -1,11 +1,11 @@
 define( [
-	"../core",
-	"../core/isAttached",
+	"~/core",
+	"~/core/isAttached",
 	"./var/rboxStyle",
 	"./var/rnumnonpx",
 	"./var/getStyles",
 	"./var/rcustomProp",
-	"../var/rtrimCSS",
+	"~/var/rtrimCSS",
 	"./support"
 ], function( jQuery, isAttached, rboxStyle, rnumnonpx, getStyles,
 	rcustomProp, rtrimCSS, support ) {

@@ -1,8 +1,8 @@
-import Defaults from '../settings/Defaults'
-import Config from '../settings/Config'
-import CoreUtils from '../CoreUtils'
-import Graphics from '../Graphics'
-import Utils from '../../utils/Utils'
+import Defaults from '~/settings/Defaults'
+import Config from '~/settings/Config'
+import CoreUtils from '~/CoreUtils'
+import Graphics from '~/Graphics'
+import Utils from '~/~/utils/Utils'
 
 export default class UpdateHelpers {
   constructor(ctx) {

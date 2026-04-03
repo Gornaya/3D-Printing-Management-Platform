@@ -1,4 +1,4 @@
-import Scatter from './../charts/Scatter'
+import Scatter from './~/charts/Scatter'
 import Graphics from './Graphics'
 import Filters from './Filters'
 

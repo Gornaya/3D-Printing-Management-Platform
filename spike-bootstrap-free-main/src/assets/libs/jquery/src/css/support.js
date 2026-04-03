@@ -1,8 +1,8 @@
 define( [
-	"../core",
-	"../var/document",
-	"../var/documentElement",
-	"../var/support"
+	"~/core",
+	"~/var/document",
+	"~/var/documentElement",
+	"~/var/support"
 ], function( jQuery, document, documentElement, support ) {
 
 "use strict";

@@ -1,6 +1,6 @@
-import Utils from '../../utils/Utils'
+import Utils from '~/~/utils/Utils'
 
-import en from '../../locales/en.json'
+import en from '~/~/locales/en.json'
 
 export default class Localization {
   constructor(ctx) {

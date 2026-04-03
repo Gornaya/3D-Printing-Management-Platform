@@ -5,7 +5,7 @@
  * --------------------------------------------------------------------------
  */
 
-import Manipulator from '../dom/manipulator.js'
+import Manipulator from '~/dom/manipulator.js'
 import { isElement, toType } from './index.js'
 
 /**

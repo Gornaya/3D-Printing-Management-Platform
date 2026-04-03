@@ -1,4 +1,4 @@
-import Graphics from '../Graphics'
+import Graphics from '~/Graphics'
 import XAxis from './XAxis'
 import AxesUtils from './AxesUtils'
 

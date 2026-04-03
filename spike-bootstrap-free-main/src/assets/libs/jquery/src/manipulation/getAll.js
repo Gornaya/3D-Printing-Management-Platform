@@ -1,6 +1,6 @@
 define( [
-	"../core",
-	"../core/nodeName"
+	"~/core",
+	"~/core/nodeName"
 ], function( jQuery, nodeName ) {
 
 "use strict";

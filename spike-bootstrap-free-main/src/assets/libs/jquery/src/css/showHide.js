@@ -1,7 +1,7 @@
 define( [
-	"../core",
-	"../data/var/dataPriv",
-	"../css/var/isHiddenWithinTree"
+	"~/core",
+	"~/data/var/dataPriv",
+	"~/css/var/isHiddenWithinTree"
 ], function( jQuery, dataPriv, isHiddenWithinTree ) {
 
 "use strict";

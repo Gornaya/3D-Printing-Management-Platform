@@ -1,12 +1,12 @@
 define( [
-	"../core",
-	"../core/stripAndCollapse",
-	"../var/isFunction",
-	"../core/parseHTML",
-	"../ajax",
-	"../traversing",
-	"../manipulation",
-	"../selector"
+	"~/core",
+	"~/core/stripAndCollapse",
+	"~/var/isFunction",
+	"~/core/parseHTML",
+	"~/ajax",
+	"~/traversing",
+	"~/manipulation",
+	"~/selector"
 ], function( jQuery, stripAndCollapse, isFunction ) {
 
 "use strict";

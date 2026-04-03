@@ -1,8 +1,8 @@
-import Animations from '../modules/Animations'
-import Fill from '../modules/Fill'
-import Filters from '../modules/Filters'
-import Graphics from '../modules/Graphics'
-import Markers from '../modules/Markers'
+import Animations from '~/modules/Animations'
+import Fill from '~/modules/Fill'
+import Filters from '~/modules/Filters'
+import Graphics from '~/modules/Graphics'
+import Markers from '~/modules/Markers'
 
 /**
  * ApexCharts Scatter Class.

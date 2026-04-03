@@ -1,5 +1,5 @@
-import Utils from '../../utils/Utils'
-import Graphics from '../Graphics'
+import Utils from '~/~/utils/Utils'
+import Graphics from '~/Graphics'
 
 export default class Helpers {
   constructor(dCtx) {

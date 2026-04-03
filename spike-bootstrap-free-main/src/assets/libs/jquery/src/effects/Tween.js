@@ -1,8 +1,8 @@
 define( [
-	"../core",
-	"../css/finalPropName",
+	"~/core",
+	"~/css/finalPropName",
 
-	"../css"
+	"~/css"
 ], function( jQuery, finalPropName ) {
 
 "use strict";

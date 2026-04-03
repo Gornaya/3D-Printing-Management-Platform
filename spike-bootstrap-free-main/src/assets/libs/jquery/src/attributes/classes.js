@@ -1,10 +1,10 @@
 define( [
-	"../core",
-	"../core/stripAndCollapse",
-	"../var/isFunction",
-	"../var/rnothtmlwhite",
-	"../data/var/dataPriv",
-	"../core/init"
+	"~/core",
+	"~/core/stripAndCollapse",
+	"~/var/isFunction",
+	"~/var/rnothtmlwhite",
+	"~/data/var/dataPriv",
+	"~/core/init"
 ], function( jQuery, stripAndCollapse, isFunction, rnothtmlwhite, dataPriv ) {
 
 "use strict";
