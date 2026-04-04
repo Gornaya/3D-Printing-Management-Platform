@@ -1,3 +1,5 @@
+@model PrintingPlatform.Models.Account.RegisterModel
+
 @{
     Layout = "_LoginRegister";
 }
@@ -34,22 +36,27 @@
                 <p class="mb-0 fs-4 px-3 d-inline-block bg-white z-1 position-relative">or sign Up with</p>
                 <span class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
               </div>
-              <form action="" method="post" novalidate>
+              <form asp-controller="Account" asp-action="Register" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <div class="mb-3">
-                  <label for="FirstName" class="form-label">First Name</label>
-                  <input type="text" class="form-control" id="FirstName" name="FirstName" aria-describedby="textHelp">
+                  <label asp-for="FirstName" class="form-label"></label>
+                  <input asp-for="FirstName" class="form-control">
+                  <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
                  <div class="mb-3">
-                  <label for="LastName" class="form-label">Last Name</label>
-                  <input type="text" class="form-control" id="LastName" name="LastName" aria-describedby="textHelp">
+                  <label asp-for="LastName" class="form-label"></label>
+                  <input asp-for="LastName" class="form-control">
+                  <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                  <label for="Email" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="Email" name="Email" aria-describedby="emailHelp">
+                  <label asp-for="Email" class="form-label"></label>
+                  <input asp-for="Email" class="form-control">
+                  <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="mb-4">
-                  <label for="Password" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="Password" name="Password">
+                  <label asp-for="Password" class="form-label"></label>
+                  <input asp-for="Password" type="password" class="form-control">
+                  <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mb-4 rounded-pill">Sign Up</button>
                 <div class="d-flex align-items-center">
@@ -215,4 +222,8 @@
     </div>
     <div class="dark-transparent sidebartoggler"></div>
   </div>
+
+  @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+  }
   

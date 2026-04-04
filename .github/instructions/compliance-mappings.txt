@@ -1,10 +1,7 @@
 # actual_rel|expected_rel
-Data/Entities/Permissions.cs|ImplementationPacks/PermissionsFeature/Data/Entities/Permissions.cs
-Data/Entities/RolePermission.cs|ImplementationPacks/PermissionsFeature/Data/Entities/RolePermission.cs
-Data/WMSContext.cs|ImplementationPacks/PermissionsFeature/Data/WMSContext.cs
-Interfaces/IPermissionService.cs|ImplementationPacks/PermissionsFeature/Interfaces/IPermissionService.cs
-Services/Account/PermissionService.cs|ImplementationPacks/PermissionsFeature/Services/Account/PermissionService.cs
-Controllers/AccountController.cs|ImplementationPacks/PermissionsFeature/Controllers/AccountController.cs
-Views/Account/Permissions.cshtml|ImplementationPacks/PermissionsFeature/Views/Account/Permissions.cshtml
-Views/Account/EditPermission.cshtml|ImplementationPacks/PermissionsFeature/Views/Account/EditPermission.cshtml
-wwwroot/js/site.js|ImplementationPacks/PermissionsFeature/wwwroot/js/site.js
+Controllers/InventoryController.cs|ImplementationPacks/ProductFeature/Controllers/InventoryController.cs
+Data/WMSContext.cs|ImplementationPacks/ProductFeature/Data/WMSContext.cs
+Program.cs|ImplementationPacks/ProductFeature/Program.cs
+Views/Inventory/ProductPage.cshtml|ImplementationPacks/ProductFeature/Views/Inventory/ProductPage.cshtml
+Views/Shared/_Layout.cshtml|ImplementationPacks/ProductFeature/Views/Shared/_Layout.cshtml
+wwwroot/js/site.js|ImplementationPacks/ProductFeature/wwwroot/js/site.js

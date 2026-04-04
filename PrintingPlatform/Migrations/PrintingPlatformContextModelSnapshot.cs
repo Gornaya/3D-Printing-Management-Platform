@@ -20,6 +20,21 @@ namespace PrintingPlatform.Migrations
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true);
 
+            modelBuilder.Entity("PrintingPlatform.Data.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("PrintingPlatform.Data.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -47,36 +62,34 @@ namespace PrintingPlatform.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PrintingPlatform.Data.Entities.UserRole", b =>
+            modelBuilder.Entity("RoleUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("RolesId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UsersId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("RolesId", "UsersId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UsersId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("RoleUser");
                 });
 
-            modelBuilder.Entity("PrintingPlatform.Data.Entities.UserRole", b =>
+            modelBuilder.Entity("RoleUser", b =>
                 {
+                    b.HasOne("PrintingPlatform.Data.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PrintingPlatform.Data.Entities.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("PrintingPlatform.Data.Entities.User", b =>
-                {
-                    b.Navigation("Roles");
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

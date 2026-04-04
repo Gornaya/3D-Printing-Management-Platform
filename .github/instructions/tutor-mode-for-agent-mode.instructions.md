@@ -15,14 +15,17 @@ applyTo: "**"
 This file is active only when the prompt begins with the exact case-sensitive prefix `In Tutor-Mode:` and AI mode is agent mode.
 When active, this file overrides conflicting instructions.
 Immediately after activation, load `.github/instructions/tutor-mode-agent-helper.instructions.md` before running any other implementation step.
+Immediately after loading the helper, load and apply `.github/instructions/pattern-cheatsheet.instructions.md` for repository implementation conventions in this run.
 
 ## Top Rules (Always Near the Top)
 - If something is unclear, ask before proceeding.
 - If there is more than one valid way to proceed, do not assume; ask which approach should be treated as canonical.
 - Keep this file implementation-only.
 - Helper-load order is strict for optimization: load `.github/instructions/tutor-mode-agent-helper.instructions.md` at the beginning (before planning implementation snippets, before stage output generation, and before finalization checks).
+- After helper load, applying `.github/instructions/pattern-cheatsheet.instructions.md` is mandatory for implementation and repository-convention decisions.
 - Do not redefine trigger or mode-routing behavior here; routing is owned by the shared file.
 - Do not reopen planning decisions that were already settled unless the approved plan is inconsistent or impossible to implement.
+- If the approved plan includes a stretch decision (+1/+2 level) and rationale, follow it exactly during implementation and do not ask the same decision again unless implementation is blocked.
 - Never modify workspace files or editor contents directly during Agent mode, except creating or updating `compliance-script.sh` and `prepare-compliance-baseline.sh` in the same directory as `run-all-tests.sh`, plus `.github/instructions/compliance-mappings.txt`.
 - Always output the full approved implementation (all approved stages) in one pass.
 - Keep user validation checkpoints between stages inside the same implementation output.
@@ -59,7 +62,19 @@ Immediately after activation, load `.github/instructions/tutor-mode-agent-helper
 
 ## Difficulty Calibration (Dynamic by Coding Proficiency)
 - Default coding proficiency is 4/10 unless I explicitly set a different level in my prompt.
+- Canonical coding proficiency contract for consistency with shared and plan files:
+	- Use one proficiency value per task cycle in `p/10` format.
+	- If unspecified, default to `4/10`.
+	- Proficiency scale is integer `1-10`.
+	- For non-JavaScript TODO blanks, target ratio is dynamic by `p`:
+		- minimum `= p * 10 - 5`
+		- maximum `= p * 10 + 5`
+	- JavaScript snippets are always complete with zero blanks.
+	- At `10/10`, TODO markers are bare with no inline expectation notes or explanatory text.
 - Calibrate implementation complexity, abstraction level, code structure, naming density, and explanation depth to my current coding proficiency.
+- Treat coding proficiency as the default maximum concept difficulty for generated implementation; do not introduce above-level concepts unless explicitly requested.
+- Optional stretch (plan-approved only): implementation may use concepts up to +1 or +2 above current proficiency only when explicit approval is already captured in the approved plan output.
+- If no approved stretch note exists in the plan, keep all implementation concepts at or below current proficiency.
 - Proficiency scaling is strict and linear on a 1-10 scale and must directly match what a student at that level can reasonably handle.
 - Linear directive style by level:
 	- 1: lowest level, full copy-paste style directives with direct names and exact expected code shape.
@@ -73,13 +88,13 @@ Immediately after activation, load `.github/instructions/tutor-mode-agent-helper
 	- 9: highest abstract guidance short of silent mode, explain what to do rather than how to type it.
 	- 10: no explanations/comments, output TODO blocks only.
 - Calibrate TODO blank difficulty to my current coding proficiency, not just the blank count.
-- At 4/10, structure implementation as someone at level 4 should reasonably be able to follow and complete, with occasional carefully introduced level 5/10 and 6/10 concepts only when they materially help learning and do not break established project patterns.
+- At 4/10, structure implementation as someone at level 4 should reasonably be able to follow and complete.
 - Use selective good coding practices as learning moments (for example: clear naming, guard clauses, small focused methods, and basic input validation) at a difficulty level the current proficiency can absorb.
-- When introducing a 5/10 or 6/10 concept, keep it minimal, explain why it helps, and avoid chaining multiple advanced concepts in the same step.
+- If advanced concepts are explicitly requested, keep them minimal, explain why they help, and avoid chaining multiple advanced concepts in the same step.
 - Start with the simplest correct implementation that matches my project structure and current coding proficiency.
-- Keep non-JavaScript snippets at 35%-45% fillable blanks with numbered TODO markers and clear inline guidance.
+- Keep non-JavaScript snippets within the canonical dynamic ratio (`p * 10 - 5` to `p * 10 + 5`) with numbered TODO markers and clear inline guidance.
 - At 4/10, include a few low-friction memory-reinforcement blanks in non-JavaScript snippets (for example: simple variable creation, straightforward assignments, or direct method calls) while keeping core logic guidance clear.
-- If task scope is small and only a limited number of snippets are produced, prioritize achieving the 35%-45% blank range, even when that requires adding more low-level memory-reinforcement blanks.
+- If task scope is small and only a limited number of snippets are produced, prioritize achieving the current canonical dynamic range (`p * 10 - 5` to `p * 10 + 5`), even when that requires adding more low-level memory-reinforcement blanks.
 - If task scope is larger and many snippets are produced, cap low-level memory-reinforcement blanks at no more than 25% of all TODO blanks and prioritize higher-quality, concept-relevant blanks.
 - Do not blank long string literals by type (for example: message strings, error strings, or config strings); keep those values visible and stable.
 - Keep JavaScript snippets complete, with zero blanks.
@@ -171,6 +186,7 @@ When implementing an approved Tutor-Mode plan:
 
 ## Implementation Rules
 - Follow the approved plan and do not expand scope without asking.
+- Honor any approved plan-level stretch decision and its limits; do not introduce extra above-level concepts beyond what was approved.
 - Preserve MVC boundaries, folder structure, and naming conventions.
 - Use full JavaScript snippets with no blanks.
 - Include blanks for non-JavaScript and HTML where appropriate.

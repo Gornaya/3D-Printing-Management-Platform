@@ -20,10 +20,22 @@
 
 ## Universal Constraints
 - Assume my current coding proficiency is 4/10 unless I explicitly say otherwise.
+- Canonical coding proficiency contract (shared across Tutor-Mode files):
+	- Use one proficiency value per task cycle in `p/10` format.
+	- If unspecified, default to `4/10`.
+	- Proficiency scale is integer `1-10`.
+	- For non-JavaScript TODO blanks, target ratio is dynamic by `p`:
+		- minimum `= p * 10 - 5`
+		- maximum `= p * 10 + 5`
+	- JavaScript snippets are always complete with zero blanks.
+	- At `10/10`, TODO markers are bare with no inline expectation notes or explanatory text.
 - Prefer beginner-to-intermediate solutions by default unless I explicitly ask for advanced, optimization, scaling, or production hardening.
 - Use straightforward, readable code and explanations.
 - When the existing codebase already shows a convention, pattern, folder structure, naming style, or architecture choice, follow that observed pattern first.
 - Use proficiency to control explanation depth and implementation complexity, not to override established project conventions.
+- Treat proficiency as the maximum default concept difficulty for generated implementation; do not introduce above-level concepts unless the user explicitly asks for advanced/stretch content.
+- Optional stretch policy: with explicit user approval captured during planning, implementation may use concepts up to +1 or +2 levels above current proficiency when there is a clear learning benefit.
+- Stretch use is opt-in, not default. If no explicit stretch approval exists in the approved plan, stay at or below the current proficiency level.
 - Use the simplest approach that fits current project patterns.
 - Only introduce more advanced concepts when the codebase already uses them or when they are explicitly needed.
 - Ask before deviating from existing MVC boundaries or naming conventions.

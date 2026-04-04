@@ -43,6 +43,7 @@ Before finalizing an implementation response, verify:
 - [ ] Validation commands are present when needed.
 - [ ] A `Final Validation Stage <N>` exists where `N = last stage + 1`.
 - [ ] Final validation stage includes copied `Plan Compliance Check` and `Agent Compliance Check` blocks.
+- [ ] Tutor-Mode agent flow explicitly loaded and applied `.github/instructions/pattern-cheatsheet.instructions.md` immediately after helper load (passing requirement).
 - [ ] Final validation stage includes `Compliance Script Invocation` and explicit reference to `.github/instructions/compliance-script-build.md`.
 - [ ] `prepare-compliance-baseline.sh` is created in the same directory as `run-all-tests.sh`.
 - [ ] `prepare-compliance-baseline.sh` is auto-executed by the agent during final validation so baseline files are ready for user compliance run.

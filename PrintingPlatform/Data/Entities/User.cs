@@ -9,5 +9,5 @@ public class User
     public string LastName { get; set; } = "";
     public string Email { get; set; } = "";
     public string Password { get; set; } = "";
-    public virtual ICollection<UserRole> Roles { get; set; } = new List<UserRole>();
+    public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 }
