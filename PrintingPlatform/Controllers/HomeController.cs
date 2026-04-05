@@ -1,15 +1,17 @@
+using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using PrintingPlatform.Models;
+using PrintingPlatform.Shared;
 
 namespace PrintingPlatform.Controllers;
 
 public class HomeController : Controller
 {
     public IActionResult Index()
-    {
-        return View();
-    }
+        {
+            return View();
+        }
 
     public IActionResult Privacy()
     {

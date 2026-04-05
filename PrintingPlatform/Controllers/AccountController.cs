@@ -75,8 +75,19 @@ namespace PrintingPlatform.Controllers
             var Identity = new ClaimsIdentity(claims, 
             CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(Identity);
+
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            var normalizedRoleName = (roleName ?? AppRoles.User).Trim();
+            var isAdmin = string.Equals(normalizedRoleName, AppRoles.Admin, StringComparison.OrdinalIgnoreCase);
+            var isManager = string.Equals(normalizedRoleName, AppRoles.Manager, StringComparison.OrdinalIgnoreCase);
+            if (isAdmin || isManager)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             return RedirectToAction("Index", "Home");
+            
+            
         }
 
         [HttpPost]
@@ -85,7 +96,7 @@ namespace PrintingPlatform.Controllers
         {
             await HttpContext.SignOutAsync
             (CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(Login));
         }
         [HttpGet]
         public ActionResult Register()
