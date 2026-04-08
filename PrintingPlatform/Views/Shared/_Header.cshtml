@@ -1,0 +1,102 @@
+<!-- -------------------------------------------- -->
+  <!-- Header start -->
+  <!-- -------------------------------------------- -->
+  <header class="header-fp p-0 w-100 bg-primary-subtle">
+    <nav class="navbar navbar-expand-lg py-10">
+      <div class="container-fluid d-flex justify-content-between">
+        <a asp-controller="Home" asp-action="Index" class="text-nowrap logo-img">
+          <img src="~/assets/images/logos/logo-light.svg" class="dark-logo" alt="Logo-Dark">
+          <img src="~/assets/images/logos/logo-dark.svg" class="light-logo" alt="Logo-light">
+        </a>
+        <button class="navbar-toggler border-0 p-0 shadow-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+          <i class="ti ti-menu-2 fs-8"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mx-auto mb-2 gap-xl-7 gap-8 mb-lg-0">
+            <li class="nav-item">
+              <a asp-controller="Home" asp-action="Index" class="nav-link px-6 fs-4 fw-bold text-dark link-primary">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a asp-controller="Catalog" asp-action="Index" class="nav-link px-6 fs-4 fw-bold text-dark link-primary d-flex gap-2">Catalog
+              </a>
+            </li>
+            <li class="nav-item">
+              <a asp-controller="Pricing" asp-action="Index" class="nav-link px-6 fs-4 fw-bold text-dark link-primary">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a asp-controller="Contact" asp-action="Index" class="nav-link px-6 fs-4 fw-bold text-dark link-primary">Contact</a>
+            </li>
+          </ul>
+          @if (User.Identity?.IsAuthenticated ?? false)
+{
+    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Log In</a>
+    <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register</a>
+}
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- -------------------------------------------- -->
+  <!-- Header End -->
+  <!-- -------------------------------------------- -->
+
+  <!-- ------------------------------------- -->
+  <!-- Responsive Header Start -->
+  <!-- ------------------------------------- -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+      <a asp-controller="Home" asp-action="Index" class="text-nowrap logo-img">
+        <img src="~/assets/images/logos/logo-light.svg" class="dark-logo" alt="Logo-Dark">
+        <img src="~/assets/images/logos/logo-dark.svg" class="light-logo" alt="Logo-light">
+      </a>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="list-unstyled ps-0">
+        <li class="mb-1">
+          <a asp-controller="Home" asp-action="Index" class="px-0 fs-4 d-block text-dark link-primary w-100 py-2">
+            Home
+          </a>
+        </li>
+        <li class="mb-1">
+          <a asp-controller="Catalog" asp-action="Index" class="px-0 fs-4 d-flex align-items-center justify-content-start gap-2 w-100 py-2 text-dark link-primary">
+            Catalog
+          </a>
+        </li>
+        <li class="mb-1">
+          <a asp-controller="Pricing" asp-action="Index" class="px-0 fs-4 d-flex align-items-center justify-content-start gap-2 w-100 py-2 text-dark link-primary">
+            Pricing
+          </a>
+        </li>
+       <li class="mb-1">
+          <a asp-controller="Contact" asp-action="Index" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">
+            Contact
+          </a>
+        </li>
+        <li class="mt-3">
+           @if (User.Identity?.IsAuthenticated ?? false)
+{
+    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Log In</a>
+    <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register</a>
+}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- ------------------------------------- -->
+  <!-- Responsive Header End -->
+  <!-- ------------------------------------- -->
