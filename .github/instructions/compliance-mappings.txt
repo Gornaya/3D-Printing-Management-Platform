@@ -1,7 +1,5 @@
 # actual_rel|expected_rel
-Controllers/InventoryController.cs|ImplementationPacks/ProductFeature/Controllers/InventoryController.cs
-Data/WMSContext.cs|ImplementationPacks/ProductFeature/Data/WMSContext.cs
-Program.cs|ImplementationPacks/ProductFeature/Program.cs
-Views/Inventory/ProductPage.cshtml|ImplementationPacks/ProductFeature/Views/Inventory/ProductPage.cshtml
-Views/Shared/_Layout.cshtml|ImplementationPacks/ProductFeature/Views/Shared/_Layout.cshtml
-wwwroot/js/site.js|ImplementationPacks/ProductFeature/wwwroot/js/site.js
+PrintingPlatform/Controllers/CartController.cs|ImplementationPacks/CheckoutCartFlowPatch/PrintingPlatform/Controllers/CartController.cs
+PrintingPlatform/Controllers/CheckoutController.cs|ImplementationPacks/CheckoutCartFlowPatch/PrintingPlatform/Controllers/CheckoutController.cs
+PrintingPlatform/Models/Checkout/CheckoutViewModel.cs|ImplementationPacks/CheckoutCartFlowPatch/PrintingPlatform/Models/Checkout/CheckoutViewModel.cs
+PrintingPlatform/Views/Checkout/Checkout.cshtml|ImplementationPacks/CheckoutCartFlowPatch/PrintingPlatform/Views/Checkout/Checkout.cshtml

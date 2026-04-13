@@ -1,0 +1,4 @@
+/d/comIT/3D-Printing-Management-Platform/ImplementationPacks/CheckoutCartFlowPatch/PrintingPlatform/Controllers/CartController.cs
+/d/comIT/3D-Printing-Management-Platform/ImplementationPacks/CheckoutCartFlowPatch/PrintingPlatform/Controllers/CheckoutController.cs
+/d/comIT/3D-Printing-Management-Platform/ImplementationPacks/CheckoutCartFlowPatch/PrintingPlatform/Models/Checkout/CheckoutViewModel.cs
+/d/comIT/3D-Printing-Management-Platform/ImplementationPacks/CheckoutCartFlowPatch/PrintingPlatform/Views/Checkout/Checkout.cshtml

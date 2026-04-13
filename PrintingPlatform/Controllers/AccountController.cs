@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PrintingPlatform.Models.Account;
 using Microsoft.EntityFrameworkCore;
+using PrintingPlatform.Data;
 using PrintingPlatform.Data.Entities;
 using PrintingPlatform.Shared;
 
@@ -96,8 +97,9 @@ namespace PrintingPlatform.Controllers
         {
             await HttpContext.SignOutAsync
             (CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction("Login", "Account");
         }
+        
         [HttpGet]
         public ActionResult Register()
         {

@@ -48,7 +48,7 @@ When active, this file overrides conflicting instructions.
 	4. Optional advanced ideas only if explicitly requested.
 
 ## Difficulty Calibration (Dynamic by Coding Proficiency)
-- Default coding proficiency is 2/10 unless I explicitly set a different level in my prompt.
+- Default coding proficiency is 4/10 unless I explicitly set a different level in my prompt.
 - Canonical coding proficiency contract for consistency with shared and agent files:
 	- Use one proficiency value per task cycle in `p/10` format.
 	- If unspecified, default to `4/10`.

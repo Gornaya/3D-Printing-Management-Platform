@@ -4,10 +4,9 @@
   <header class="header-fp p-0 w-100 bg-primary-subtle">
     <nav class="navbar navbar-expand-lg py-10">
       <div class="container-fluid d-flex justify-content-between">
-        <a asp-controller="Home" asp-action="Index" class="text-nowrap logo-img">
-          <img src="~/assets/images/logos/logo-light.svg" class="dark-logo" alt="Logo-Dark">
-          <img src="~/assets/images/logos/logo-dark.svg" class="light-logo" alt="Logo-light">
-        </a>
+<a asp-controller="Home" asp-action="Index" class="text-nowrap logo-img">
+    <img src="~/assets/images/logos/logo-light.svg" alt="Spike Admin">
+</a>
         <button class="navbar-toggler border-0 p-0 shadow-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
           <i class="ti ti-menu-2 fs-8"></i>
         </button>
@@ -27,18 +26,27 @@
               <a asp-controller="Contact" asp-action="Index" class="nav-link px-6 fs-4 fw-bold text-dark link-primary">Contact</a>
             </li>
           </ul>
-          @if (User.Identity?.IsAuthenticated ?? false)
-{
-    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-primary">Logout</button>
-    </form>
-}
-else
-{
-    <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Log In</a>
-    <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register</a>
-}
+          <div class="d-flex align-items-center gap-3">
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+        <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary rounded-pill nav-auth-btn">
+                Logout
+            </button>
+        </form>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login" class="btn btn-primary rounded-pill nav-auth-btn">
+            Log In
+        </a>
+
+        <a asp-controller="Account" asp-action="Register" class="btn btn-primary rounded-pill nav-auth-btn">
+            Register
+        </a>
+    }
+</div>
         </div>
       </div>
     </nav>
@@ -53,9 +61,8 @@ else
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
       <a asp-controller="Home" asp-action="Index" class="text-nowrap logo-img">
-        <img src="~/assets/images/logos/logo-light.svg" class="dark-logo" alt="Logo-Dark">
-        <img src="~/assets/images/logos/logo-dark.svg" class="light-logo" alt="Logo-light">
-      </a>
+    <img src="~/assets/images/logos/logo-light.svg" alt="Spike Admin">
+</a>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">

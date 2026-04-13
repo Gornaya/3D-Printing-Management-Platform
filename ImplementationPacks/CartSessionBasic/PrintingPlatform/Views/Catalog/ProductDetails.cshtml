@@ -1,0 +1,90 @@
+@model PrintingPlatform.Models.Product.ProductDetailsViewModel
+
+@{
+    Layout = "_StoreProductLayout";
+    ViewData["Title"] = "Product Detail";
+
+    var imageUrl = !string.IsNullOrWhiteSpace(Model.ImageUrl)
+        ? Model.ImageUrl
+        : Url.Content("~/assets/images/products/s1.jpg");
+
+    var productName = string.IsNullOrWhiteSpace(Model.Name)
+        ? "Product"
+        : Model.Name;
+
+    var productDescription = string.IsNullOrWhiteSpace(Model.Description)
+        ? "Description is currently unavailable for this product."
+        : Model.Description;
+
+    var finalPrice = Model.DiscountedPrice.HasValue
+                     && Model.DiscountedPrice.Value > 0
+                     && Model.DiscountedPrice.Value < Model.Price
+        ? Model.DiscountedPrice.Value
+        : Model.Price;
+}
+
+<section class="py-5">
+    <div class="container-xxl">
+        <div class="mb-3 overflow-hidden position-relative">
+            <div class="px-3">
+                <h4 class="fs-6 mb-0">Product Detail</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Catalog" asp-action="Index">Shop</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">@productName</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="card shadow-none border">
+            <div class="card-body p-4">
+                <div class="row g-4 align-items-start">
+                    <div class="col-lg-6">
+                        <div class="rounded-4 overflow-hidden border">
+                            <img src="@imageUrl" alt="@productName" class="img-fluid w-100" />
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge text-bg-success fs-2 fw-semibold">In Stock</span>
+                            <span class="fs-2">3D print</span>
+                        </div>
+
+                        <h2 class="mb-3">@productName</h2>
+                        <p class="mb-4">@productDescription</p>
+
+                        <h4 class="mb-4">
+                            @if (Model.DiscountedPrice.HasValue && Model.DiscountedPrice.Value > 0 && Model.DiscountedPrice.Value < Model.Price)
+                            {
+                                <del class="fs-5 text-muted">$@Model.Price.ToString("0.00")</del>
+                                <span class="ms-2 text-danger fw-bold">$@Model.DiscountedPrice.Value.ToString("0.00")</span>
+                            }
+                            else
+                            {
+                                <span class="fw-bold">$@finalPrice.ToString("0.00")</span>
+                            }
+                        </h4>
+
+                        <a asp-controller="Catalog" asp-action="Index" class="btn btn-outline-primary">
+                            Back to Catalog
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-none border mt-4">
+            <div class="card-body p-4">
+                <h5 class="mb-3">Description</h5>
+                <p class="mb-0">@productDescription</p>
+            </div>
+        </div>
+    </div>
+</section>

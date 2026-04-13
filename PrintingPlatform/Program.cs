@@ -24,6 +24,15 @@ public class Program
                 options.AccessDeniedPath = "/Account/AccessDenied";
             });
 
+        builder.Services.AddDistributedMemoryCache();
+        
+        builder.Services.AddSession(options=>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(30);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+        });
+             
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
@@ -49,8 +58,12 @@ public class Program
             app.UseHsts();
         }
 
+        app.UseStatusCodePagesWithReExecute("/Home/Error404");
+
         app.UseHttpsRedirection();
         app.UseRouting();
+
+        app.UseSession();
 
         app.UseAuthentication();
         app.UseAuthorization();

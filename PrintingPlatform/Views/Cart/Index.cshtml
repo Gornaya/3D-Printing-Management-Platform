@@ -1,0 +1,144 @@
+@model PrintingPlatform.Models.Cart.CartViewModel
+
+@{
+    Layout = "_StoreProductLayout";
+    ViewData["Title"] = "Cart";
+}
+
+<section class="py-5">
+    <div class="container-xxl">
+
+        <div class="mb-3">
+            <h4 class="fs-6 mb-0">Cart</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">Cart</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- LEFT: CART ITEMS -->
+            <div class="col-lg-8">
+
+                <div class="card border shadow-none">
+                    <div class="card-body p-4">
+
+                        @if (Model.Items.Any())
+                        {
+                            @foreach (var item in Model.Items)
+                            {
+                                <div class="d-flex align-items-center border-bottom pb-3 mb-3">
+
+                                    <!-- LEFT -->
+                                    <div class="d-flex align-items-center gap-3 flex-grow-1">
+                                        <img src="@(string.IsNullOrWhiteSpace(item.ImageUrl)
+                                            ? Url.Content("~/assets/images/products/s1.jpg")
+                                            : item.ImageUrl)"
+                                             style="width:80px; height:80px; object-fit:cover;"
+                                             class="rounded-3 border" />
+
+                                        <div>
+                                            <h6 class="mb-1">@item.ProductName</h6>
+
+                                            <form asp-controller="Cart" asp-action="Remove" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <button type="submit" class="btn btn-sm p-0 text-muted border-0 bg-transparent d-inline-flex align-items-center gap-1">
+                                                    <i class="ti ti-trash fs-4"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- CENTER: QUANTITY -->
+                                    <div class="text-center" style="width:120px;">
+                                        <form asp-controller="Cart" asp-action="UpdateQuantity" method="post" class="d-flex align-items-center">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="productId" value="@item.ProductId" />
+
+                                            <input type="number"
+                                                   name="quantity"
+                                                   value="@item.Quantity"
+                                                   min="1"
+                                                   class="form-control text-center"
+                                                   style="width:80px;"
+                                                   onchange="this.form.submit()" />
+                                        </form>
+                                    </div>
+
+                                    <!-- RIGHT: PRICE -->
+                                    <div class="text-end" style="width: 100;">
+                                        <div>$@item.Price.ToString("0.00")</div>
+                                        <div class="fw-bold">
+                                            $@((item.Price * item.Quantity).ToString("0.00"))
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <h5>Your cart is empty</h5>
+                                <a asp-controller="Catalog" asp-action="Index"
+                                   class="btn btn-outline-primary mt-3">
+                                    Go to Shop
+                                </a>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT: SUMMARY -->
+            <div class="col-lg-4">
+
+                <div class="card border shadow-none">
+                    <div class="card-body p-4">
+
+                        <h5 class="mb-3">Order Summary</h5>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal</span>
+                            <span>$@Model.TotalPrice.ToString("0.00")</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Shipping</span>
+                            <span>Free</span>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between fw-bold mb-4">
+                            <span>Total</span>
+                            <span>$@Model.TotalPrice.ToString("0.00")</span>
+                        </div>
+
+                        <a asp-controller="Catalog" asp-action="Index"
+                           class="btn btn-outline-primary w-100 mb-2 rounded-pill">
+                            Continue Shopping
+                        </a>
+
+                        <a asp-controller="Checkout" asp-action="Index"
+                           class="btn btn-primary w-100 rounded-pill">
+                            Proceed to Checkout
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
