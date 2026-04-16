@@ -5,34 +5,87 @@
     ViewData["Title"] = "Checkout";
 }
 
+<style>
+    .qty-control {
+        border: 1px solid var(--bs-border-color);
+        border-radius: 10px;
+        overflow: hidden;
+        min-width: 132px;
+        height: 40px;
+        background: #fff;
+    }
+
+    .qty-btn {
+        width: 40px;
+        height: 40px;
+        border: 0;
+        background: #fff;
+        color: #6c757d;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .qty-btn:hover {
+        background: #f8f9fa;
+        color: #0d6efd;
+    }
+
+    .qty-value {
+        width: 52px;
+        height: 40px;
+        border-left: 1px solid var(--bs-border-color);
+        border-right: 1px solid var(--bs-border-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: #495057;
+        background: #fff;
+    }
+
+    .option-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+        border: 1px solid var(--bs-border-color);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: #fff;
+    }
+
+    .option-card:hover {
+        border-color: #0d6efd;
+        background: #f8fbff;
+    }
+
+    .option-card input[type="radio"] {
+        margin-top: 4px;
+    }
+</style>
+
 <section class="py-5">
     <div class="container-xxl">
-        <div class="mb-3 overflow-hidden position-relative">
-            <div class="px-3">
-                <h4 class="fs-6 mb-0">Checkout</h4>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item">
-                            <a asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="breadcrumb-item" aria-current="page">Checkout</li>
-                    </ol>
-                </nav>
-            </div>
+
+        <div class="mb-4">
+            <h4 class="fs-6 mb-1">Checkout</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                </ol>
+            </nav>
         </div>
 
         @if (TempData["CheckoutSuccess"] is string successMessage)
         {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
                 @successMessage
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
-
-        @if (TempData["CheckoutError"] is string errorMessage)
-        {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                @errorMessage
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         }
@@ -41,216 +94,219 @@
         {
             <div class="card border shadow-none">
                 <div class="card-body p-4 text-center">
-                    <h5>Your cart is empty</h5>
-                    <a asp-controller="Catalog" asp-action="Index" class="btn btn-primary mt-3">Return to Catalog</a>
+                    <h5 class="mb-2">Your cart is empty</h5>
+                    <p class="text-muted mb-3">Add products before proceeding to checkout.</p>
+                    <a asp-controller="Catalog" asp-action="Index" class="btn btn-primary">
+                        Return to Catalog
+                    </a>
                 </div>
             </div>
         }
         else
         {
-            <div class="card shadow-none border">
-                <div class="card-body p-4">
-                    <div class="wizard-content">
-                        <form asp-controller="Checkout" asp-action="Index" method="post">
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" }, "div")
+            <div class="row g-4">
+                <div class="col-xl-8">
 
-                            <!-- Step 1 -->
-                            <h6>Cart</h6>
-                            <section>
-                                <div class="table-responsive">
-                                    <table class="table align-middle text-nowrap mb-0">
-                                        <thead class="fs-2">
+                    <div class="card border shadow-none mb-4">
+                        <div class="card-body p-4">
+                            <h5 class="fw-semibold mb-4">Items in your order</h5>
+
+                            <div class="table-responsive">
+                                <table class="table align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="ps-0">Product</th>
+                                            <th class="text-center">Quantity</th>
+                                            <th class="text-end pe-0">Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CartItems)
+                                        {
+                                            var image = string.IsNullOrWhiteSpace(item.ImageUrl)
+                                                ? Url.Content("~/assets/images/products/s1.jpg")
+                                                : item.ImageUrl;
+
+                                            var lineTotal = item.Price * item.Quantity;
+
                                             <tr>
-                                                <th>Product</th>
-                                                <th>Quantity</th>
-                                                <th class="text-end">Price</th>
+                                                <td class="ps-0">
+                                                    <div class="d-flex gap-3 align-items-center">
+                                                        <img src="@image"
+                                                             width="72"
+                                                             height="72"
+                                                             class="rounded"
+                                                             style="object-fit: cover;" />
+                                                        <h6 class="mb-0 fw-semibold">@item.ProductName</h6>
+                                                    </div>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <div class="d-inline-flex justify-content-center">
+                                                        <div class="qty-control d-flex align-items-center">
+                                                            <form asp-controller="Cart" asp-action="UpdateQuantity" method="post" class="m-0">
+                                                                @Html.AntiForgeryToken()
+                                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                                <input type="hidden" name="quantity" value="@(item.Quantity - 1)" />
+                                                                <input type="hidden" name="returnUrl" value="@Url.Action("Index", "Checkout")" />
+                                                                <button class="qty-btn" type="submit" aria-label="Decrease quantity">
+                                                                    <i class="ti ti-minus"></i>
+                                                                </button>
+                                                            </form>
+
+                                                            <div class="qty-value">@item.Quantity</div>
+
+                                                            <form asp-controller="Cart" asp-action="UpdateQuantity" method="post" class="m-0">
+                                                                @Html.AntiForgeryToken()
+                                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                                <input type="hidden" name="quantity" value="@(item.Quantity + 1)" />
+                                                                <input type="hidden" name="returnUrl" value="@Url.Action("Index", "Checkout")" />
+                                                                <button class="qty-btn" type="submit" aria-label="Increase quantity">
+                                                                    <i class="ti ti-plus"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="text-end pe-0">
+                                                    <h6 class="mb-0 fw-semibold">$@lineTotal.ToString("0.00")</h6>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model.CartItems)
-                                            {
-                                                <tr>
-                                                    <td class="border-bottom-0">
-                                                        <div class="d-flex align-items-center gap-3 overflow-hidden">
-                                                            <img src="@(string.IsNullOrWhiteSpace(item.ImageUrl) ? Url.Content("~/assets/images/products/s1.jpg") : item.ImageUrl)"
-                                                                 alt="@item.ProductName"
-                                                                 class="img-fluid rounded"
-                                                                 width="80" />
-                                                            <div>
-                                                                <h6 class="fw-semibold fs-4 mb-0">@item.ProductName</h6>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <div class="fs-4 fw-semibold">@item.Quantity</div>
-                                                    </td>
-                                                    <td class="text-end border-bottom-0">
-                                                        <h6 class="fs-4 fw-semibold mb-0">$@((item.Price * item.Quantity).ToString("0.00"))</h6>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
-                                <div class="order-summary border rounded p-4 my-4">
-                                    <div class="p-3">
-                                        <h5 class="fs-5 fw-semibold mb-4">Order Summary</h5>
-                                        <div class="d-flex justify-content-between mb-4">
-                                            <p class="mb-0 fs-4">Sub Total</p>
-                                            <h6 class="mb-0 fs-4 fw-semibold">$@Model.Subtotal.ToString("0.00")</h6>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-4">
-                                            <p class="mb-0 fs-4">Shipping</p>
-                                            <h6 class="mb-0 fs-4 fw-semibold">$@Model.ShippingCost.ToString("0.00")</h6>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <h6 class="mb-0 fs-4 fw-semibold">Total</h6>
-                                            <h6 class="mb-0 fs-5 fw-semibold">$@Model.Total.ToString("0.00")</h6>
-                                        </div>
+                    <div class="card border shadow-none">
+                        <div class="card-body p-4">
+                            <form asp-controller="Checkout" asp-action="Index" method="post">
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" }, "div")
+
+                                <h5 class="mb-4">Billing &amp; Address</h5>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label asp-for="FullName" class="form-label"></label>
+                                        <input asp-for="FullName" class="form-control" />
+                                        <span asp-validation-for="FullName" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="Email" class="form-label"></label>
+                                        <input asp-for="Email" class="form-control" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label asp-for="Address" class="form-label"></label>
+                                        <input asp-for="Address" class="form-control" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="City" class="form-label"></label>
+                                        <input asp-for="City" class="form-control" />
+                                        <span asp-validation-for="City" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="PostalCode" class="form-label"></label>
+                                        <input asp-for="PostalCode" class="form-control" />
+                                        <span asp-validation-for="PostalCode" class="text-danger"></span>
                                     </div>
                                 </div>
-                            </section>
 
-                            <!-- Step 2 -->
-                            <h6>Billing & address</h6>
-                            <section>
-                                <div class="billing-address-content">
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label asp-for="FullName" class="form-label"></label>
-                                            <input asp-for="FullName" class="form-control" />
-                                            <span asp-validation-for="FullName" class="text-danger"></span>
-                                        </div>
+                                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-3 mt-4">
+                                    <a asp-controller="Catalog" asp-action="Index" class="btn btn-outline-primary">
+                                        Back to Catalog
+                                    </a>
 
-                                        <div class="col-md-6">
-                                            <label asp-for="Email" class="form-label"></label>
-                                            <input asp-for="Email" class="form-control" />
-                                            <span asp-validation-for="Email" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <label asp-for="Address" class="form-label"></label>
-                                            <input asp-for="Address" class="form-control" />
-                                            <span asp-validation-for="Address" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label asp-for="City" class="form-label"></label>
-                                            <input asp-for="City" class="form-control" />
-                                            <span asp-validation-for="City" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label asp-for="PostalCode" class="form-label"></label>
-                                            <input asp-for="PostalCode" class="form-control" />
-                                            <span asp-validation-for="PostalCode" class="text-danger"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="order-summary border rounded p-4 my-4">
-                                        <div class="p-3">
-                                            <h5 class="fs-5 fw-semibold mb-4">Order Summary</h5>
-                                            <div class="d-flex justify-content-between mb-4">
-                                                <p class="mb-0 fs-4">Sub Total</p>
-                                                <h6 class="mb-0 fs-4 fw-semibold">$@Model.Subtotal.ToString("0.00")</h6>
-                                            </div>
-                                            <div class="d-flex justify-content-between mb-4">
-                                                <p class="mb-0 fs-4">Shipping</p>
-                                                <h6 class="mb-0 fs-4 fw-semibold">$@Model.ShippingCost.ToString("0.00")</h6>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <h6 class="mb-0 fs-4 fw-semibold">Total</h6>
-                                                <h6 class="mb-0 fs-5 fw-semibold">$@Model.Total.ToString("0.00")</h6>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <button type="submit" class="btn btn-success">
+                                        Place Order
+                                    </button>
                                 </div>
-                            </section>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-                            <!-- Step 3 -->
-                            <h6>Payment</h6>
-                            <section class="payment-method">
-                                <div class="payment-method-list">
-                                    <div class="delivery-option btn-group-active card shadow-none border">
-                                        <div class="card-body p-4">
-                                            <h6 class="mb-3 fw-semibold fs-4">Delivery Option</h6>
-                                            <div class="btn-group flex-row gap-3 w-100" role="group" aria-label="Delivery options">
-                                                <div class="position-relative form-check btn-custom-fill flex-fill ps-0">
-                                                    <input type="radio" class="form-check-input ms-4 round-16" checked="checked" disabled />
-                                                    <label class="btn btn-outline-primary mb-0 p-3 rounded ps-5 w-100">
-                                                        <div class="text-start ps-2">
-                                                            <h6 class="fs-4 fw-semibold mb-0">Standard delivery</h6>
-                                                            <p class="mb-0 text-muted">Shipping cost: $@Model.ShippingCost.ToString("0.00")</p>
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                <div class="col-xl-4">
+                    <div class="card border shadow-none mb-4">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Order Summary</h5>
 
-                                    <div class="payment-option btn-group-active card shadow-none border">
-                                        <div class="card-body p-4">
-                                            <h6 class="mb-3 fw-semibold fs-4">Payment Option</h6>
-                                            <div class="row">
-                                                <div class="col-lg-8">
-                                                    <div class="btn-group flex-column w-100" role="group" aria-label="Payment options">
-                                                        <div class="position-relative mb-3 w-100 form-check btn-custom-fill ps-0">
-                                                            <input type="radio" class="form-check-input ms-4 round-16" checked="checked" disabled />
-                                                            <label class="btn btn-outline-primary mb-0 p-3 rounded ps-5 w-100">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="text-start ps-2">
-                                                                        <h6 class="fs-4 fw-semibold mb-0">Manual checkout</h6>
-                                                                        <p class="mb-0 text-muted">
-                                                                            This is a demo checkout flow. Order details will be submitted for processing.
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Sub Total</span>
+                                <span class="fw-semibold">$@Model.Subtotal.ToString("0.00")</span>
+                            </div>
 
-                                                <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                                                    <div class="text-center">
-                                                        <h6 class="fs-4 fw-semibold mb-2">Total</h6>
-                                                        <div class="fs-7 fw-bold">$@Model.Total.ToString("0.00")</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Shipping</span>
+                                <span class="fw-semibold">
+                                    @(Model.ShippingCost <= 0 ? "Free" : $"${Model.ShippingCost.ToString("0.00")}")
+                                </span>
+                            </div>
 
-                                    <div class="order-summary border rounded p-4 my-4">
-                                        <div class="p-3">
-                                            <h5 class="fs-5 fw-semibold mb-4">Order Summary</h5>
-                                            <div class="d-flex justify-content-between mb-4">
-                                                <p class="mb-0 fs-4">Sub Total</p>
-                                                <h6 class="mb-0 fs-4 fw-semibold">$@Model.Subtotal.ToString("0.00")</h6>
-                                            </div>
-                                            <div class="d-flex justify-content-between mb-4">
-                                                <p class="mb-0 fs-4">Shipping</p>
-                                                <h6 class="mb-0 fs-4 fw-semibold">$@Model.ShippingCost.ToString("0.00")</h6>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <h6 class="mb-0 fs-4 fw-semibold">Total</h6>
-                                                <h6 class="mb-0 fs-5 fw-semibold">$@Model.Total.ToString("0.00")</h6>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Tax</span>
+                                <span class="fw-semibold">$@Model.Tax.ToString("0.00")</span>
+                            </div>
 
-                                    <div class="d-sm-flex align-items-center justify-content-between my-4">
-                                        <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-primary d-block mb-2 mb-sm-0">
-                                            Back to Cart
-                                        </a>
-                                        <button type="submit" class="btn btn-success d-block">
-                                            Place Order
-                                        </button>
-                                    </div>
+                            <hr class="my-3" />
+
+                            <div class="d-flex justify-content-between fw-bold">
+                                <span>Total</span>
+                                <span>$@Model.Total.ToString("0.00")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border shadow-none mb-4">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Delivery</h5>
+
+                            <label class="option-card mb-3">
+                                <input type="radio" name="DeliveryMethod" value="Standard" checked />
+                                <div>
+                                    <div class="fw-semibold">Standard delivery</div>
+                                    <div class="text-muted small">Ships to your address</div>
                                 </div>
-                            </section>
-                        </form>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="DeliveryMethod" value="Pickup" />
+                                <div>
+                                    <div class="fw-semibold">Local pickup</div>
+                                    <div class="text-muted small">Pick up your order locally</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="card border shadow-none">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Payment</h5>
+
+                            <label class="option-card mb-3">
+                                <input type="radio" name="PaymentMethod" value="Stripe" checked />
+                                <div>
+                                    <div class="fw-semibold">Stripe test checkout</div>
+                                    <div class="text-muted small">Secure test payment via Stripe</div>
+                                </div>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="PaymentMethod" value="Confirmation" />
+                                <div>
+                                    <div class="fw-semibold">Pay after confirmation</div>
+                                    <div class="text-muted small">We will review your order details before production</div>
+                                </div>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>

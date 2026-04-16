@@ -16,7 +16,7 @@ namespace PrintingPlatform.Controllers
         private readonly PrintingPlatformContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
 
-        public AccountController(PrintingPlatformContext context, 
+        public AccountController(PrintingPlatformContext context,
         IPasswordHasher<User> passwordHasher)
         {
             _context = context;
@@ -32,63 +32,67 @@ namespace PrintingPlatform.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 return View(model);
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync
-            (userRecord => userRecord.Email == model.Email);
-            
+            User? user = await _context.Users
+                .Include(userRecord => userRecord.Roles)
+                .FirstOrDefaultAsync(userRecord => userRecord.Email == model.Email);
+
             if (user == null)
             {
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 return View(model);
             }
 
-            var passwordVerificationResult = _passwordHasher.
-            VerifyHashedPassword(user, user.Password, model.Password);
+            PasswordVerificationResult passwordVerificationResult = _passwordHasher
+                .VerifyHashedPassword(user, user.Password, model.Password);
 
-			if (passwordVerificationResult == 
-            PasswordVerificationResult.Failed)
-			{
-				ModelState.AddModelError(string.Empty, "Invalid email or password.");
-				return View(model);
-			}
-
-			if (passwordVerificationResult == 
-            PasswordVerificationResult.SuccessRehashNeeded)
-			{
-				user.Password = _passwordHasher.HashPassword(user, model.Password);
-				_context.Update(user);
-				await _context.SaveChangesAsync();
-			}
-
-			var roleName = user.Roles.FirstOrDefault()?.Name ?? "User";
-            var claims = new List<Claim>
+            if (passwordVerificationResult == PasswordVerificationResult.Failed)
             {
+                ModelState.AddModelError(string.Empty, "Invalid email or password.");
+                return View(model);
+            }
+
+            if (user.IsBlocked)
+            {
+                ModelState.AddModelError(string.Empty, "Your account is blocked.");
+                return View(model);
+            }
+
+            if (passwordVerificationResult == PasswordVerificationResult.SuccessRehashNeeded)
+            {
+                user.Password = _passwordHasher.HashPassword(user, model.Password);
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+            }
+
+            string roleName = user.Roles
+                .Select(roleRecord => roleRecord.Name)
+                .FirstOrDefault() ?? AppRoles.User;
+
+            List<Claim> claims = new List<Claim>
+            {   
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, roleName),
-                new Claim(ClaimTypes.GivenName, user.FirstName),
-                new Claim(ClaimTypes.Surname, user.LastName)
+                new Claim(ClaimTypes.GivenName, user.FirstName ?? string.Empty),
+                new Claim(ClaimTypes.Surname, user.LastName ?? string.Empty)
             };
 
-            var Identity = new ClaimsIdentity(claims, 
-            CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(Identity);
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(
+                claims,
+                CookieAuthenticationDefaults.AuthenticationScheme);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-            var normalizedRoleName = (roleName ?? AppRoles.User).Trim();
-            var isAdmin = string.Equals(normalizedRoleName, AppRoles.Admin, StringComparison.OrdinalIgnoreCase);
-            var isManager = string.Equals(normalizedRoleName, AppRoles.Manager, StringComparison.OrdinalIgnoreCase);
-            if (isAdmin || isManager)
-            {
-                return RedirectToAction("Index", "Dashboard");
-            }
+            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                claimsPrincipal);
 
             return RedirectToAction("Index", "Home");
-            
-            
         }
 
         [HttpPost]
@@ -99,7 +103,7 @@ namespace PrintingPlatform.Controllers
             (CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
         }
-        
+
         [HttpGet]
         public ActionResult Register()
         {
@@ -109,7 +113,8 @@ namespace PrintingPlatform.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 return View(model);
             }
 
@@ -123,7 +128,7 @@ namespace PrintingPlatform.Controllers
 
             var userRole = await _context.Roles.FirstOrDefaultAsync
             (roleRecord => roleRecord.Name == AppRoles.User);
-             if (userRole == null)
+            if (userRole == null)
             {
                 ModelState.AddModelError(string.Empty, "User role not found. Please contact support.");
                 return View(model);
@@ -134,7 +139,7 @@ namespace PrintingPlatform.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                Roles = new List<Role> {userRole}
+                Roles = new List<Role> { userRole }
             };
 
             newUser.Password = _passwordHasher.HashPassword(newUser, model.Password);

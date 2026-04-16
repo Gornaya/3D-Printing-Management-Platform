@@ -27,19 +27,19 @@ namespace PrintingPlatform.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Add(int productID, string? 
+        public IActionResult Add(int productID, string?
         returnUrl, bool buyNow = false)
         {
-            var product = _context.Products.FirstOrDefault(productItem => 
+            var product = _context.Products.FirstOrDefault(productItem =>
             productItem.Id == productID);
-            
+
             if (product == null)
             {
                 return NotFound();
             }
 
             var cart = GetCartFromSession();
-            var existingItem = cart.Items.FirstOrDefault(cartItem => 
+            var existingItem = cart.Items.FirstOrDefault(cartItem =>
             cartItem.ProductId == productID);
 
             if (existingItem != null)
@@ -78,9 +78,9 @@ namespace PrintingPlatform.Controllers
         public IActionResult Remove(int productID, string? returnUrl)
         {
             var cart = GetCartFromSession();
-            var item = cart.Items.FirstOrDefault(cartItem => 
+            var item = cart.Items.FirstOrDefault(cartItem =>
             cartItem.ProductId == productID);
-            
+
             if (item != null)
             {
                 cart.Items.Remove(item);
@@ -97,15 +97,20 @@ namespace PrintingPlatform.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateQuantity(int productId, int quantity)
+        public IActionResult UpdateQuantity(int productId, int quantity, string? returnUrl)
         {
             var cart = GetCartFromSession();
-            var item = cart.Items.FirstOrDefault(cartItem => 
+            var item = cart.Items.FirstOrDefault(cartItem =>
             cartItem.ProductId == productId);
-            
+
             if (item == null)
             {
-                return RedirectToAction("Index", "Catalog");
+                if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
+                return RedirectToAction(nameof(Index));
             }
 
             if (quantity <= 0)
@@ -118,6 +123,12 @@ namespace PrintingPlatform.Controllers
             }
 
             SetCartInSession(cart);
+
+            if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -129,7 +140,7 @@ namespace PrintingPlatform.Controllers
                 return new CartViewModel();
             }
 
-            return JsonSerializer.Deserialize<CartViewModel>(cartJson) 
+            return JsonSerializer.Deserialize<CartViewModel>(cartJson)
             ?? new CartViewModel();
         }
 
