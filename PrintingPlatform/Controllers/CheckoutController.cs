@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using PrintingPlatform.Data;
+using PrintingPlatform.Data.Entities;
 using PrintingPlatform.Models.Cart;
 using PrintingPlatform.Models.Checkout;
 using System.Text.Json;
@@ -8,6 +10,12 @@ namespace PrintingPlatform.Controllers
     public class CheckoutController : Controller
     {
         private const string CartSessionKey = "CartSession";
+        private readonly PrintingPlatformContext _PrintingPlatformContext;
+
+        public CheckoutController(PrintingPlatformContext PrintingPlatformContext)
+        {
+            _PrintingPlatformContext = PrintingPlatformContext;
+        }
 
         [HttpGet]
         public IActionResult Index()
@@ -43,8 +51,36 @@ namespace PrintingPlatform.Controllers
                 return View(viewModel);
             }
 
+            Order orderEntity = new Order
+            {
+                OrderNumber = GenerateOrderNumber(),
+                FullName = viewModel.FullName,
+                Email = viewModel.Email,
+                Address = viewModel.Address,
+                City = viewModel.City,
+                PostalCode = viewModel.PostalCode,
+                Status = "Pending",
+                Subtotal = viewModel.Subtotal,
+                ShippingCost = viewModel.ShippingCost,
+                Tax = viewModel.Tax,
+                Total = viewModel.Total,
+                CreatedAt = DateTime.UtcNow,
+                Items = cart.Items.Select(cartItemViewModel => new OrderItem
+                {
+                    ProductId = cartItemViewModel.ProductId,
+                    ProductName = cartItemViewModel.ProductName,
+                    ImageUrl = cartItemViewModel.ImageUrl,
+                    UnitPrice = cartItemViewModel.Price,
+                    Quantity = cartItemViewModel.Quantity
+                }).ToList()
+            };
+
+            _PrintingPlatformContext.Orders.Add(orderEntity);
+            _PrintingPlatformContext.SaveChanges();
+
             HttpContext.Session.Remove(CartSessionKey);
-            TempData["CheckoutSuccess"] = "Your order has been placed successfully!";
+
+            TempData["CheckoutSuccess"] = $"Your order {orderEntity.OrderNumber} has been placed successfully!";
             return RedirectToAction("Index", "Catalog");
         }
 
@@ -82,6 +118,11 @@ namespace PrintingPlatform.Controllers
             {
                 Items = new List<CartItemViewModel>()
             };
+        }
+
+        private static string GenerateOrderNumber()
+        {
+            return $"PP-{DateTime.UtcNow:yyyyMMddHHmmss}";
         }
     }
 }

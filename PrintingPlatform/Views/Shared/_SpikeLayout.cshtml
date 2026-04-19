@@ -1,3 +1,23 @@
+@using System.Security.Claims
+
+@{
+    var firstName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "User";
+    var lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
+    var fullName = $"{firstName} {lastName}".Trim();
+
+    var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "User";
+    var email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+
+    var roleDisplay = role switch
+    {
+        "Admin" => "Admin",
+        "Manager" => "Manager",
+        _ => "User"
+    };
+
+    var avatarUrl = Url.Content("~/assets/images/profile/user-1.jpg");
+}
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="vertical">
 
@@ -122,18 +142,18 @@
           <div class="card-body p-4">
             <div class="d-flex align-items-center justify-content-between gap-3">
               <div class="d-flex align-items-center gap-3">
-                <img src="~/assets/images/profile/user-1.jpg" width="45" height="45" class="img-fluid rounded-circle" alt="spike-img">
+                <img src="@avatarUrl" width="45" height="45" class="img-fluid rounded-circle" alt="spike-img">
                 <div>
-                  <h5 class="mb-1">Mike</h5>
-                  <p class="mb-0">Admin</p>
+                  <h5 class="mb-1">@fullName</h5>
+                  <p class="mb-0">@roleDisplay</p>
                 </div>
               </div>
               <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-    @Html.AntiForgeryToken()
-    <button type="submit" class="border-0 bg-transparent p-0">
-        <iconify-icon icon="solar:logout-line-duotone" class="fs-8"></iconify-icon>
-    </button>
-</form>
+                 @Html.AntiForgeryToken()
+                <button type="submit" class="border-0 bg-transparent p-0">
+                <iconify-icon icon="solar:logout-line-duotone" class="fs-8"></iconify-icon>
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -422,300 +442,7 @@
                           </div>
                         </div>
                       </li>
-                      <!-- ------------------------------- -->
-                      <!-- start language Dropdown -->
-                      <!-- ------------------------------- -->
-                      <li class="nav-item dropdown d-none d-lg-block">
-                        <a class="nav-link position-relative shadow-none" href="javascript:void(0)" id="drop3" aria-expanded="false">
-                          <form class="nav-link position-relative shadow-none">
-                            <input type="text" class="form-control rounded-3 py-2 ps-5 text-dark" placeholder="Try to searching ...">
-                            <iconify-icon icon="solar:magnifer-linear" class="text-dark position-absolute top-50 start-0 translate-middle-y text-dark ms-3"></iconify-icon>
-                          </form>
-                        </a>
-                        <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop3">
-                          <!--  Search Bar -->
-
-                          <div class="modal-header border-bottom p-3">
-                            <input type="search" class="form-control fs-3" placeholder="Try to searching ...">
-
-                          </div>
-                          <div class="message-body p-3" data-simplebar="">
-                            <h5 class="mb-0 fs-5 p-1">Quick Page Links</h5>
-                            <ul class="list mb-0 py-2">
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Modern</span>
-                                  <span class="fs-3 text-muted d-block">/dashboards/dashboard1</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Dashboard</span>
-                                  <span class="fs-3 text-muted d-block">/dashboards/dashboard2</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Contacts</span>
-                                  <span class="fs-3 text-muted d-block">/apps/contacts</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Posts</span>
-                                  <span class="fs-3 text-muted d-block">/apps/blog/posts</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Detail</span>
-                                  <span class="fs-3 text-muted d-block">/apps/blog/detail/streaming-video-way-before-it-was-cool-go-dark-tomorrow</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Shop</span>
-                                  <span class="fs-3 text-muted d-block">/apps/ecommerce/shop</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Modern</span>
-                                  <span class="fs-3 text-muted d-block">/dashboards/dashboard1</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Dashboard</span>
-                                  <span class="fs-3 text-muted d-block">/dashboards/dashboard2</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Contacts</span>
-                                  <span class="fs-3 text-muted d-block">/apps/contacts</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Posts</span>
-                                  <span class="fs-3 text-muted d-block">/apps/blog/posts</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Detail</span>
-                                  <span class="fs-3 text-muted d-block">/apps/blog/detail/streaming-video-way-before-it-was-cool-go-dark-tomorrow</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Shop</span>
-                                  <span class="fs-3 text-muted d-block">/apps/ecommerce/shop</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- ------------------------------- -->
-                      <!-- end language Dropdown -->
-                      <!-- ------------------------------- -->
-
-                      <li class="nav-item nav-icon-hover-bg rounded-circle">
-                        <a class="nav-link moon dark-layout" href="javascript:void(0)">
-                          <iconify-icon icon="solar:moon-line-duotone" class="moon fs-6"></iconify-icon>
-                        </a>
-                        <a class="nav-link sun light-layout" href="javascript:void(0)">
-                          <iconify-icon icon="solar:sun-2-line-duotone" class="sun fs-6"></iconify-icon>
-                        </a>
-                      </li>
-
-                      <!-- ------------------------------- -->
-                      <!-- start Messages cart Dropdown -->
-                      <!-- ------------------------------- -->
-                      <li class="nav-item dropdown nav-icon-hover-bg rounded-circle">
-                        <a class="nav-link position-relative" href="javascript:void(0)" id="drop3" aria-expanded="false">
-                          <iconify-icon icon="solar:chat-dots-line-duotone" class="fs-6"></iconify-icon>
-                          <div class="pulse">
-                            <span class="heartbit border-warning"></span>
-                            <span class="point text-bg-warning"></span>
-                          </div>
-                        </a>
-                        <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop3">
-                          <!--  Messages -->
-                          <div class="d-flex align-items-center py-3 px-7">
-                            <h3 class="mb-0 fs-5">Messages</h3>
-                            <span class="badge bg-info ms-3">5 new</span>
-                          </div>
-
-                          <div class="message-body" data-simplebar="">
-                            <a href="javascript:void(0)" class="dropdown-item px-7 d-flex align-items-center py-6">
-                              <span class="flex-shrink-0">
-                                <img src="~/assets/images/profile/user-2.jpg" alt="user" width="45" class="rounded-circle">
-                              </span>
-                              <div class="w-100 ps-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                  <h5 class="mb-0 fs-3 fw-normal">
-                                    Roman Joined the Team!
-                                  </h5>
-                                  <span class="fs-2 text-nowrap d-block text-muted">9:08 AM</span>
-                                </div>
-                                <span class="fs-2 d-block mt-1 text-muted">Congratulate him</span>
-                              </div>
-                            </a>
-
-                            <a href="javascript:void(0)" class="dropdown-item px-7 d-flex align-items-center py-6">
-                              <span class="flex-shrink-0">
-                                <img src="~/assets/images/profile/user-3.jpg" alt="user" width="45" class="rounded-circle">
-                              </span>
-                              <div class="w-100 ps-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                  <h5 class="mb-0 fs-3 fw-normal">
-                                    New message received
-                                  </h5>
-                                  <span class="fs-2 text-nowrap d-block text-muted">9:08 AM</span>
-                                </div>
-                                <span class="fs-2 d-block mt-1 text-muted">Salma sent you new
-                                  message</span>
-                              </div>
-                            </a>
-
-                            <a href="javascript:void(0)" class="dropdown-item px-7 d-flex align-items-center py-6">
-                              <span class="flex-shrink-0">
-                                <img src="~/assets/images/profile/user-4.jpg" alt="user" width="45" class="rounded-circle">
-                              </span>
-                              <div class="w-100 ps-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                  <h5 class="mb-0 fs-3 fw-normal">
-                                    New Payment received
-                                  </h5>
-                                  <span class="fs-2 text-nowrap d-block text-muted">9:08 AM</span>
-                                </div>
-                                <span class="fs-2 d-block mt-1 text-muted">Check your
-                                  earnings</span>
-                              </div>
-                            </a>
-
-                            <a href="javascript:void(0)" class="dropdown-item px-7 d-flex align-items-center py-6">
-                              <span class="flex-shrink-0">
-                                <img src="~/assets/images/profile/user-5.jpg" alt="user" width="45" class="rounded-circle">
-                              </span>
-                              <div class="w-100 ps-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                  <h5 class="mb-0 fs-3 fw-normal">
-                                    New message received
-                                  </h5>
-                                  <span class="fs-2 text-nowrap d-block text-muted">9:08 AM</span>
-                                </div>
-                                <span class="fs-2 d-block mt-1 text-muted">Salma sent you new
-                                  message</span>
-                              </div>
-                            </a>
-
-                            <a href="javascript:void(0)" class="dropdown-item px-7 d-flex align-items-center py-6">
-                              <span class="flex-shrink-0">
-                                <img src="~/assets/images/profile/user-6.jpg" alt="user" width="45" class="rounded-circle">
-                              </span>
-                              <div class="w-100 ps-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                  <h5 class="mb-0 fs-3 fw-normal">
-                                    Roman Joined the Team!
-                                  </h5>
-                                  <span class="fs-2 text-nowrap d-block text-muted">9:08 AM</span>
-                                </div>
-                                <span class="fs-2 d-block mt-1 text-muted">Congratulate him</span>
-                              </div>
-                            </a>
-                          </div>
-
-                          <div class="py-6 px-7 mb-1">
-                            <button class="btn btn-primary w-100">
-                              See All Messages
-                            </button>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- ------------------------------- -->
-                      <!-- end Messages cart Dropdown -->
-                      <!-- ------------------------------- -->
-
-                      <!-- ------------------------------- -->
-                      <!-- start shortcut Dropdown -->
-                      <!-- ------------------------------- -->
-                      <li class="nav-item dropdown nav-icon-hover-bg rounded-circle">
-                        <a class="nav-link position-relative" href="javascript:void(0)" id="drop2" aria-expanded="false">
-                          <iconify-icon icon="solar:widget-add-line-duotone" class="fs-6"></iconify-icon>
-                        </a>
-                        <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up pb-0 overflow-hidden" aria-labelledby="drop2">
-                          <!--  Shortcuts -->
-                          <div class="d-flex align-items-center py-3 px-7 gap-6">
-                            <h3 class="mb-0 fs-5">Shortcuts</h3>
-                          </div>
-
-                          <div class="row gx-0">
-                            <div class="col-6">
-                              <a href="app-invoice.html" class="dropdown-item px-7 border-top border-bottom border-end py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-secondary-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:checklist-minimalistic-bold-duotone" class="fs-7 text-secondary"></iconify-icon>
-                                </div>
-
-                                <h6 class="mb-0 fs-4">Invoice</h6>
-                                <span class="d-block text-body-color fs-3">Get latest invoice</span>
-                              </a>
-                            </div>
-                            <div class="col-6">
-                              <a href="app-chat.html" class="dropdown-item px-7 border-top border-bottom py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-primary-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:chat-square-call-bold-duotone" class="fs-7 text-primary"></iconify-icon>
-                                </div>
-                                <h6 class="mb-0 fs-4">Chat</h6>
-                                <span class="d-block text-body-color fs-3">New messages</span>
-                              </a>
-                            </div>
-                            <div class="col-6">
-                              <a href="app-contact2.html" class="dropdown-item px-7 border-bottom border-end py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-info-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:phone-calling-rounded-bold-duotone" class="fs-7 text-info"></iconify-icon>
-                                </div>
-                                <h6 class="mb-0 fs-4">Contact</h6>
-                                <span class="d-block text-body-color fs-3">2 Unsaved Contacts</span>
-                              </a>
-                            </div>
-                            <div class="col-6">
-                              <a href="app-email.html" class="dropdown-item px-7 border-bottom py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-danger-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:mailbox-bold-duotone" class="fs-7 text-danger"></iconify-icon>
-                                </div>
-                                <h6 class="mb-0 fs-4">Email</h6>
-                                <span class="d-block text-body-color fs-3">Get new emails</span>
-                              </a>
-                            </div>
-                            <div class="col-6">
-                              <a href="page-user-profile.html" class="dropdown-item px-7 border-end py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-warning-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:shield-user-bold-duotone" class="fs-7 text-warning"></iconify-icon>
-                                </div>
-                                <h6 class="mb-0 fs-4">Profile</h6>
-                                <span class="d-block text-body-color fs-3">More information</span>
-                              </a>
-                            </div>
-                            <div class="col-6">
-                              <a href="app-calendar.html" class="dropdown-item px-7 py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-success-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:calendar-mark-bold-duotone" class="fs-7 text-success"></iconify-icon>
-                                </div>
-                                <h6 class="mb-0 fs-4">Calendar</h6>
-                                <span class="d-block text-body-color fs-3">Get dates</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- ------------------------------- -->
-                      <!-- end shortcut Dropdown -->
-                      <!-- ------------------------------- -->
-
+                     
                       <!-- ------------------------------- -->
                       <!-- start profile Dropdown -->
                       <!-- ------------------------------- -->
@@ -723,16 +450,16 @@
                         <a class="nav-link position-relative ms-6" href="javascript:void(0)" id="drop1" aria-expanded="false">
                           <div class="d-flex align-items-center flex-shrink-0">
                             <div class="user-profile me-sm-3 me-2">
-                              <img src="~/assets/images/profile/user-1.jpg" width="40" class="rounded-circle" alt="spike-img">
+                              <img src="@avatarUrl" width="40" class="rounded-circle" alt="spike-img">
                             </div>
                             <span class="d-sm-none d-block"><iconify-icon icon="solar:alt-arrow-down-line-duotone"></iconify-icon></span>
 
                             <div class="d-none d-sm-block">
                               <h6 class="fs-4 mb-1 profile-name">
-                                Mike Nielsen
+                                @fullName
                               </h6>
                               <p class="fs-3 lh-base mb-0 profile-subtext">
-                                Admin
+                                @roleDisplay
                               </p>
                             </div>
                           </div>
@@ -745,13 +472,13 @@
                             </div>
 
                             <div class="d-flex align-items-center mx-7 py-9 border-bottom">
-                              <img src="~/assets/images/profile/user-1.jpg" alt="user" width="90" class="rounded-circle">
+                              <img src="@avatarUrl" alt="user" width="90" class="rounded-circle">
                               <div class="ms-4">
-                                <h4 class="mb-0 fs-5 fw-normal">Mike Nielsen</h4>
-                                <span class="text-muted">super admin</span>
+                                <h4 class="mb-0 fs-5 fw-normal">@fullName</h4>
+                                <span class="text-muted">@roleDisplay</span>
                                 <p class="text-muted mb-0 mt-1 d-flex align-items-center">
                                   <iconify-icon icon="solar:mailbox-line-duotone" class="fs-4 me-1"></iconify-icon>
-                                  info@spike.com
+                                  @email
                                 </p>
                               </div>
                             </div>
@@ -792,7 +519,10 @@
                             </div>
 
                             <div class="py-6 px-7 mb-1">
-                              <a href="authentication-login.html" class="btn btn-primary w-100">Log Out</a>
+                              <form method="post" asp-controller="Account" asp-action="Logout" class="m-0">
+                                @Html.AntiForgeryToken()
+                                  <button type="submit" class="btn btn-primary w-100"> Log Out</button>
+                              </form>
                             </div>
                           </div>
                         </div>
@@ -1078,300 +808,7 @@
                           </div>
                         </div>
                       </li>
-                      <!-- ------------------------------- -->
-                      <!-- start language Dropdown -->
-                      <!-- ------------------------------- -->
-                      <li class="nav-item dropdown d-none d-lg-block">
-                        <a class="nav-link position-relative shadow-none" href="javascript:void(0)" id="drop3" aria-expanded="false">
-                          <form class="nav-link position-relative shadow-none">
-                            <input type="text" class="form-control rounded-3 py-2 ps-5 text-dark" placeholder="Try to searching ...">
-                            <iconify-icon icon="solar:magnifer-linear" class="text-dark position-absolute top-50 start-0 translate-middle-y text-dark ms-3"></iconify-icon>
-                          </form>
-                        </a>
-                        <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop3">
-                          <!--  Search Bar -->
-
-                          <div class="modal-header border-bottom p-3">
-                            <input type="search" class="form-control fs-3" placeholder="Try to searching ...">
-
-                          </div>
-                          <div class="message-body p-3" data-simplebar="">
-                            <h5 class="mb-0 fs-5 p-1">Quick Page Links</h5>
-                            <ul class="list mb-0 py-2">
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Modern</span>
-                                  <span class="fs-3 text-muted d-block">/dashboards/dashboard1</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Dashboard</span>
-                                  <span class="fs-3 text-muted d-block">/dashboards/dashboard2</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Contacts</span>
-                                  <span class="fs-3 text-muted d-block">/apps/contacts</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Posts</span>
-                                  <span class="fs-3 text-muted d-block">/apps/blog/posts</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Detail</span>
-                                  <span class="fs-3 text-muted d-block">/apps/blog/detail/streaming-video-way-before-it-was-cool-go-dark-tomorrow</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Shop</span>
-                                  <span class="fs-3 text-muted d-block">/apps/ecommerce/shop</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Modern</span>
-                                  <span class="fs-3 text-muted d-block">/dashboards/dashboard1</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Dashboard</span>
-                                  <span class="fs-3 text-muted d-block">/dashboards/dashboard2</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Contacts</span>
-                                  <span class="fs-3 text-muted d-block">/apps/contacts</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Posts</span>
-                                  <span class="fs-3 text-muted d-block">/apps/blog/posts</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Detail</span>
-                                  <span class="fs-3 text-muted d-block">/apps/blog/detail/streaming-video-way-before-it-was-cool-go-dark-tomorrow</span>
-                                </a>
-                              </li>
-                              <li class="p-1 mb-1 bg-hover-light-black rounded">
-                                <a href="javascript:void(0)">
-                                  <span class="fs-3 text-dark d-block">Shop</span>
-                                  <span class="fs-3 text-muted d-block">/apps/ecommerce/shop</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- ------------------------------- -->
-                      <!-- end language Dropdown -->
-                      <!-- ------------------------------- -->
-
-                      <li class="nav-item nav-icon-hover-bg rounded-circle">
-                        <a class="nav-link moon dark-layout" href="javascript:void(0)">
-                          <iconify-icon icon="solar:moon-line-duotone" class="moon fs-6"></iconify-icon>
-                        </a>
-                        <a class="nav-link sun light-layout" href="javascript:void(0)">
-                          <iconify-icon icon="solar:sun-2-line-duotone" class="sun fs-6"></iconify-icon>
-                        </a>
-                      </li>
-
-                      <!-- ------------------------------- -->
-                      <!-- start Messages cart Dropdown -->
-                      <!-- ------------------------------- -->
-                      <li class="nav-item dropdown nav-icon-hover-bg rounded-circle">
-                        <a class="nav-link position-relative" href="javascript:void(0)" id="drop3" aria-expanded="false">
-                          <iconify-icon icon="solar:chat-dots-line-duotone" class="fs-6"></iconify-icon>
-                          <div class="pulse">
-                            <span class="heartbit border-warning"></span>
-                            <span class="point text-bg-warning"></span>
-                          </div>
-                        </a>
-                        <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop3">
-                          <!--  Messages -->
-                          <div class="d-flex align-items-center py-3 px-7">
-                            <h3 class="mb-0 fs-5">Messages</h3>
-                            <span class="badge bg-info ms-3">5 new</span>
-                          </div>
-
-                          <div class="message-body" data-simplebar="">
-                            <a href="javascript:void(0)" class="dropdown-item px-7 d-flex align-items-center py-6">
-                              <span class="flex-shrink-0">
-                                <img src="~/assets/images/profile/user-2.jpg" alt="user" width="45" class="rounded-circle">
-                              </span>
-                              <div class="w-100 ps-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                  <h5 class="mb-0 fs-3 fw-normal">
-                                    Roman Joined the Team!
-                                  </h5>
-                                  <span class="fs-2 text-nowrap d-block text-muted">9:08 AM</span>
-                                </div>
-                                <span class="fs-2 d-block mt-1 text-muted">Congratulate him</span>
-                              </div>
-                            </a>
-
-                            <a href="javascript:void(0)" class="dropdown-item px-7 d-flex align-items-center py-6">
-                              <span class="flex-shrink-0">
-                                <img src="~/assets/images/profile/user-3.jpg" alt="user" width="45" class="rounded-circle">
-                              </span>
-                              <div class="w-100 ps-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                  <h5 class="mb-0 fs-3 fw-normal">
-                                    New message received
-                                  </h5>
-                                  <span class="fs-2 text-nowrap d-block text-muted">9:08 AM</span>
-                                </div>
-                                <span class="fs-2 d-block mt-1 text-muted">Salma sent you new
-                                  message</span>
-                              </div>
-                            </a>
-
-                            <a href="javascript:void(0)" class="dropdown-item px-7 d-flex align-items-center py-6">
-                              <span class="flex-shrink-0">
-                                <img src="~/assets/images/profile/user-4.jpg" alt="user" width="45" class="rounded-circle">
-                              </span>
-                              <div class="w-100 ps-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                  <h5 class="mb-0 fs-3 fw-normal">
-                                    New Payment received
-                                  </h5>
-                                  <span class="fs-2 text-nowrap d-block text-muted">9:08 AM</span>
-                                </div>
-                                <span class="fs-2 d-block mt-1 text-muted">Check your
-                                  earnings</span>
-                              </div>
-                            </a>
-
-                            <a href="javascript:void(0)" class="dropdown-item px-7 d-flex align-items-center py-6">
-                              <span class="flex-shrink-0">
-                                <img src="~/assets/images/profile/user-5.jpg" alt="user" width="45" class="rounded-circle">
-                              </span>
-                              <div class="w-100 ps-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                  <h5 class="mb-0 fs-3 fw-normal">
-                                    New message received
-                                  </h5>
-                                  <span class="fs-2 text-nowrap d-block text-muted">9:08 AM</span>
-                                </div>
-                                <span class="fs-2 d-block mt-1 text-muted">Salma sent you new
-                                  message</span>
-                              </div>
-                            </a>
-
-                            <a href="javascript:void(0)" class="dropdown-item px-7 d-flex align-items-center py-6">
-                              <span class="flex-shrink-0">
-                                <img src="~/assets/images/profile/user-6.jpg" alt="user" width="45" class="rounded-circle">
-                              </span>
-                              <div class="w-100 ps-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                  <h5 class="mb-0 fs-3 fw-normal">
-                                    Roman Joined the Team!
-                                  </h5>
-                                  <span class="fs-2 text-nowrap d-block text-muted">9:08 AM</span>
-                                </div>
-                                <span class="fs-2 d-block mt-1 text-muted">Congratulate him</span>
-                              </div>
-                            </a>
-                          </div>
-
-                          <div class="py-6 px-7 mb-1">
-                            <button class="btn btn-primary w-100">
-                              See All Messages
-                            </button>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- ------------------------------- -->
-                      <!-- end Messages cart Dropdown -->
-                      <!-- ------------------------------- -->
-
-                      <!-- ------------------------------- -->
-                      <!-- start shortcut Dropdown -->
-                      <!-- ------------------------------- -->
-                      <li class="nav-item dropdown nav-icon-hover-bg rounded-circle">
-                        <a class="nav-link position-relative" href="javascript:void(0)" id="drop2" aria-expanded="false">
-                          <iconify-icon icon="solar:widget-add-line-duotone" class="fs-6"></iconify-icon>
-                        </a>
-                        <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up pb-0 overflow-hidden" aria-labelledby="drop2">
-                          <!--  Shortcuts -->
-                          <div class="d-flex align-items-center py-3 px-7 gap-6">
-                            <h3 class="mb-0 fs-5">Shortcuts</h3>
-                          </div>
-
-                          <div class="row gx-0">
-                            <div class="col-6">
-                              <a href="app-invoice.html" class="dropdown-item px-7 border-top border-bottom border-end py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-secondary-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:checklist-minimalistic-bold-duotone" class="fs-7 text-secondary"></iconify-icon>
-                                </div>
-
-                                <h6 class="mb-0 fs-4">Invoice</h6>
-                                <span class="d-block text-body-color fs-3">Get latest invoice</span>
-                              </a>
-                            </div>
-                            <div class="col-6">
-                              <a href="app-chat.html" class="dropdown-item px-7 border-top border-bottom py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-primary-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:chat-square-call-bold-duotone" class="fs-7 text-primary"></iconify-icon>
-                                </div>
-                                <h6 class="mb-0 fs-4">Chat</h6>
-                                <span class="d-block text-body-color fs-3">New messages</span>
-                              </a>
-                            </div>
-                            <div class="col-6">
-                              <a href="app-contact2.html" class="dropdown-item px-7 border-bottom border-end py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-info-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:phone-calling-rounded-bold-duotone" class="fs-7 text-info"></iconify-icon>
-                                </div>
-                                <h6 class="mb-0 fs-4">Contact</h6>
-                                <span class="d-block text-body-color fs-3">2 Unsaved Contacts</span>
-                              </a>
-                            </div>
-                            <div class="col-6">
-                              <a href="app-email.html" class="dropdown-item px-7 border-bottom py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-danger-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:mailbox-bold-duotone" class="fs-7 text-danger"></iconify-icon>
-                                </div>
-                                <h6 class="mb-0 fs-4">Email</h6>
-                                <span class="d-block text-body-color fs-3">Get new emails</span>
-                              </a>
-                            </div>
-                            <div class="col-6">
-                              <a href="page-user-profile.html" class="dropdown-item px-7 border-end py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-warning-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:shield-user-bold-duotone" class="fs-7 text-warning"></iconify-icon>
-                                </div>
-                                <h6 class="mb-0 fs-4">Profile</h6>
-                                <span class="d-block text-body-color fs-3">More information</span>
-                              </a>
-                            </div>
-                            <div class="col-6">
-                              <a href="app-calendar.html" class="dropdown-item px-7 py-6 d-flex flex-column gap-2 justify-content-center text-center">
-                                <div class="bg-success-subtle rounded-3 m-auto round d-flex align-items-center justify-content-center">
-                                  <iconify-icon icon="solar:calendar-mark-bold-duotone" class="fs-7 text-success"></iconify-icon>
-                                </div>
-                                <h6 class="mb-0 fs-4">Calendar</h6>
-                                <span class="d-block text-body-color fs-3">Get dates</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- ------------------------------- -->
-                      <!-- end shortcut Dropdown -->
-                      <!-- ------------------------------- -->
-
+                     
                       <!-- ------------------------------- -->
                       <!-- start profile Dropdown -->
                       <!-- ------------------------------- -->

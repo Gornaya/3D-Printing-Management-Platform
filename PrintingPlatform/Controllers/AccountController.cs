@@ -22,6 +22,11 @@ namespace PrintingPlatform.Controllers
             _context = context;
             _passwordHasher = passwordHasher;
         }
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
 
         [HttpGet]
         public ActionResult Login()
@@ -74,7 +79,7 @@ namespace PrintingPlatform.Controllers
                 .FirstOrDefault() ?? AppRoles.User;
 
             List<Claim> claims = new List<Claim>
-            {   
+            {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, roleName),

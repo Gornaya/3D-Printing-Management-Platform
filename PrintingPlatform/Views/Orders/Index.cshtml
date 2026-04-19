@@ -1,0 +1,263 @@
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model IEnumerable<PrintingPlatform.Models.Order.UserOrderCardViewModel>
+
+@{
+    Layout = "_StoreProductLayout";
+    ViewData["Title"] = "My Orders";
+
+    int totalOrders = Model.Count();
+    int inProgressOrders = Model.Count(orderViewModel => orderViewModel.Status == "Pending" || orderViewModel.Status ==
+"InProgress");
+    int shippedOrders = Model.Count(orderViewModel => orderViewModel.Status == "Shipped");
+    int completedOrders = Model.Count(orderViewModel => orderViewModel.Status == "Completed");
+
+    string currentSearch = ViewBag.SearchQuery as string ?? string.Empty;
+    string currentStatus = ViewBag.CurrentStatus as string ?? "All";
+    string currentSort = ViewBag.CurrentSort as string ?? "newest";
+}
+
+<section class="py-5 bg-body-secondary">
+    <div class="container-xxl">
+
+        <div class="mb-4 overflow-hidden position-relative">
+            <div class="px-1 px-md-2">
+                <h4 class="fs-6 mb-0">My Orders</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">My Orders</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- LEFT MAIN COLUMN -->
+            <div class="col-xl-8 order-2 order-xl-1">
+
+                <div class="row g-4">
+
+                    <!-- CARD 1 -->
+                    @if (!Model.Any())
+                    {
+                        <div class="col-12">
+                            <div class="card border shadow-none rounded-4">
+                                <div class="card-body text-center py-5">
+                                    <div class="mb-3">
+                                        <i class="ti ti-package fs-1 text-primary"></i>
+                                    </div>
+                                    <h4 class="fw-bold mb-2">No orders yet</h4>
+                                    <p class="text-muted mb-4">
+                                        You have not placed any orders yet. Start by exploring the catalog.
+                                    </p>
+                                    <a asp-controller="Catalog" asp-action="Index" class="btn btn-primary">
+                                        Go to Catalog
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var orderViewModel in Model)
+                        {
+                            var badgeClass = orderViewModel.Status switch
+                            {
+                                "Completed" => "text-bg-success",
+                                "Shipped" => "text-bg-info",
+                                "Pending" => "text-bg-secondary",
+                                "InProgress" => "text-bg-warning",
+                                _ => "text-bg-secondary"
+                            };
+
+                            var statusText = orderViewModel.Status switch
+                            {
+                                "InProgress" => "In Progress",
+                                _ => orderViewModel.Status
+                            };
+
+                            <div class="col-12">
+                                <div class="card border shadow-none rounded-4 overflow-hidden">
+                                    <div class="card-body p-4">
+                                        <div class="row g-4 align-items-start">
+                                            <div class="col-md-3 col-lg-2">
+                                                <div class="bg-light rounded-4 d-flex align-items-center justify-content-center p-3"
+                                                     style="min-height: 170px;">
+                                                    <img src="@orderViewModel.ImageUrl" alt="Order preview"
+                                                         class="img-fluid rounded-3" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-9 col-lg-10">
+                                                <div class="d-flex flex-column h-100">
+
+                                                    <div
+                                                        class="d-flex flex-column flex-lg-row justify-content-between align-items-start gap-3 mb-3">
+                                                        <div>
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                                                                <h5 class="mb-0 fw-bold">@orderViewModel.Title</h5>
+                                                                <span
+                                                                class="badge rounded-pill text-bg-warning">@statusText</span>
+                                                            </div>
+
+                                                            <p class="text-muted mb-0">
+                                                                Order #@orderViewModel.OrderNumber · Created on
+                                                                @orderViewModel.CreatedAt.ToString("MMM dd, yyyy")
+                                                            </p>
+                                                        </div>
+                                                        <div class="text-lg-end">
+                                                            <div class="text-muted small mb-1">Total</div>
+                                                            <h4 class="mb-0 fw-bold">
+                                                                $@orderViewModel.TotalPrice.ToString("0.00")</h4>
+                                                        </div>
+                                                    </div>
+
+                                                        <div class="row g-3 small mb-4">
+                                                            <div class="col-sm-6 col-lg-3">
+                                                                <span class="text-dark fw-semibold">Material:</span>
+                                                                @orderViewModel.Material
+                                                            </div>
+                                                            <div class="col-sm-6 col-lg-3">
+                                                                <span class="text-dark fw-semibold">Color:</span>
+                                                                @orderViewModel.Color
+                                                            </div>
+                                                            <div class="col-sm-6 col-lg-3">
+                                                                <span class="text-dark fw-semibold">Quantity:</span>
+                                                                @orderViewModel.Quantity
+                                                            </div>
+                                                            <div class="col-sm-6 col-lg-3">
+                                                                <span class="text-dark fw-semibold">Status:</span> @statusText
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mt-auto d-flex flex-wrap gap-2">
+                                                            <a href="#" class="btn btn-primary">
+                                                                Details
+                                                            </a>
+                                                            <a asp-controller="Catalog" asp-action="Index"
+                                                                   class="btn btn-outline-primary">
+                                                                Reorder
+                                                            </a>
+                                                        </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        }
+
+                    </div>
+            </div>
+
+            <div class="col-xl-4 order-1 order-xl-2">
+
+                    <div class="card border shadow-none rounded-4 mb-4">
+                        <div class="card-body p-3 p-md-4">
+                            <h5 class="fw-semibold mb-1">Orders Overview</h5>
+                            <p class="text-muted mb-3 small">
+                                Track active, shipped, and completed orders.
+                            </p>
+
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="border rounded-3 p-3 bg-light h-100">
+                                        <div class="text-muted small mb-1">Total Orders</div>
+                                        <div class="fw-semibold fs-5">@totalOrders</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="border rounded-3 p-3 bg-light h-100">
+                                        <div class="text-muted small mb-1">In Progress</div>
+                                        <div class="fw-semibold fs-5">@inProgressOrders</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="border rounded-3 p-3 bg-light h-100">
+                                        <div class="text-muted small mb-1">Shipped</div>
+                                        <div class="fw-semibold fs-5">@shippedOrders</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="border rounded-3 p-3 bg-light h-100">
+                                        <div class="text-muted small mb-1">Completed</div>
+                                        <div class="fw-semibold fs-5">@completedOrders</div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-2">
+                                    <a asp-controller="Catalog" asp-action="Index"
+                                           class="btn btn-outline-primary w-100 rounded-pill">
+                                        Browse Catalog
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border shadow-none rounded-4">
+                        <div class="card-body p-3 p-md-4">
+                            <h5 class="fw-semibold mb-3">Filters</h5>
+                            <form asp-controller="Orders" asp-action="Index" method="get">
+
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <input type="text" name="search" class="form-control rounded-pill"
+                                               placeholder="Search by order number or title" />
+                                    </div>
+
+                                    <div class="col-12">
+                                        <select name="sort" class="form-select rounded-pill">
+                                            <option value="All" selected="@(currentStatus == "All")">All statuses</option>
+                                            <option value="Pending" selected="@(currentStatus == "Pending")">Pending
+                                            </option>
+                                            <option value="In Progress" selected="@(currentStatus == "In Progress")">In
+                                                Progress</option>
+                                                <option value="Shipped" selected="@(currentStatus == "Shipped")">Shipped
+                                                </option>
+                                                <option value="Completed" selected="@(currentStatus == "Completed")">Completed
+                                                </option>
+                                                <option value="Cancelled" selected="@(currentStatus == "Cancelled")">Cancelled
+                                                </option>
+                                            </select>
+                                    </div>
+
+                                    <div class="col-12">
+                                            <select name="sort" class="form-select rounded-pill">
+                                                <option value="newest" selected="@(currentSort == "newest")">Newest first
+                                                </option>
+                                                <option value="oldest" selected="@(currentSort == "oldest")">Oldest first
+                                                </option>
+                                                <option value="price_desc" selected="@(currentSort == "price_desc")">Price: high
+                                                    to low</option>
+                                                <option value="price_asc" selected="@(currentSort == "price_asc")">Price: low to
+                                                    high</option>
+                                            </select>
+                                    </div>
+
+                                        <div class="col-12 d-flex gap-2">
+                                            <button class="btn btn-outline-primary w-100 rounded-pill" type="submit">
+                                                Apply
+                                            </button>
+                                            <a asp-controller="Orders" asp-action="Index" class="btn btn-light w-100 rounded-pill">
+                                                Reset
+                                            </a>
+                                        </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</section>

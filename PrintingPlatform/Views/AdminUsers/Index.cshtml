@@ -1,150 +1,223 @@
 @model PrintingPlatform.Models.AdminUsers.AdminUsersIndexViewModel
 @using PrintingPlatform.Shared
 
-
 @{
-  Layout = "_SpikeLayout";
-  ViewData["Title"] = "Admin Users";
+    Layout = "_SpikeLayout";
+    ViewData["Title"] = "Admin Users";
 }
-<div class="mb-3 overflow-hidden position-relative">
-  <div class="px-3">
-    <h4 class="fs-6 mb-0">Users list</h4>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item">
-          <a asp-controller="Home" asp-action="Index">Home</a>
-        </li>
-        <li class="breadcrumb-item" aria-current="page">Users list</li>
-      </ol>
-    </nav>
-  </div>
-</div>
-<div class="product-list">
-    <div class="card">
-        <div class="card-body p-3">
 
-            @if (TempData["AdminUsersSuccess"] != null)
-            {
-                <div class="alert alert-success mb-3">
-                    @TempData["AdminUsersSuccess"]
+<style>
+    .admin-users-page .card-body {
+        padding: 24px !important;
+    }
+
+    .admin-users-page .table-responsive {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .admin-users-page table th:first-child,
+    .admin-users-page table td:first-child {
+        padding-left: 16px;
+    }
+
+    .admin-users-page table th:last-child,
+    .admin-users-page table td:last-child {
+        padding-right: 16px;
+    }
+
+    .admin-users-page .table-footer {
+        padding: 12px 16px 8px 16px;
+    }
+
+    .admin-users-page .user-id {
+        font-size: 12px;
+        color: #6c757d;
+    }
+
+    .admin-users-page .role-management-cell,
+    .admin-users-page .actions-cell {
+        vertical-align: middle;
+    }
+
+    .admin-users-page .role-form,
+    .admin-users-page .actions-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 0;
+    }
+
+    .admin-users-page .protected-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+</style>
+
+<div class="admin-users-page">
+    <div class="mb-3 overflow-hidden position-relative">
+        <div class="px-3">
+            <h4 class="fs-6 mb-0">Users list</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="breadcrumb-item" aria-current="page">Users list</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="product-list">
+        <div class="card">
+            <div class="card-body p-3">
+                @if (TempData["AdminUsersSuccess"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show mb-3 admin-alert" role="alert">
+                        @TempData["AdminUsersSuccess"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                @if (TempData["AdminUsersError"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show mb-3 admin-alert" role="alert">
+                        @TempData["AdminUsersError"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+                    <form method="get" asp-action="Index" class="position-relative">
+                        <input name="search" value="@Model.Search" type="text"
+                               class="form-control search-chat py-2 ps-5" placeholder="Search user by name or email">
+                        <i
+                        class="ti ti-search position-absolute top-50 start-0 translate-middle-y fs-6 text-dark ms-3"></i>
+                    </form>
+
+                    <a class="fs-6 text-muted" href="javascript:void(0)">
+                        <i class="ti ti-filter"></i>
+                    </a>
                 </div>
-            }
 
-            @if (TempData["AdminUsersError"] != null)
-            {
-                <div class="alert alert-danger mb-3">
-                    @TempData["AdminUsersError"]
-                </div>
-            }
+                <div class="table-responsive border rounded">
+                    <table class="table align-middle text-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">User</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Current Role</th>
+                                <th scope="col">Status</th>
+                                <th scope="col" style="min-width: 220px;">Role Management</th>
+                                <th scope="col" style="min-width: 180px;">Actions</th>
+                            </tr>
+                        </thead>
 
-            <div class="d-flex justify-content-between align-items-center gap-6 mb-9">
-                <form method="get" asp-action="Index" class="position-relative">
-                    <input name="search"
-                           value="@Model.Search"
-                           type="text"
-                           class="form-control search-chat py-2 ps-5"
-                           placeholder="Search user by name or email">
-                    <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y fs-6 text-dark ms-3"></i>
-                </form>
-
-                <a class="fs-6 text-muted" href="javascript:void(0)">
-                    <i class="ti ti-filter"></i>
-                </a>
-            </div>
-
-            <div class="table-responsive border rounded">
-                <table class="table align-middle text-nowrap mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">User</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Current Role</th>
-                            <th scope="col">Status</th>
-                            <th scope="col" style="min-width: 280px;">Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @if (Model.Users != null && Model.Users.Any())
-                        {
-                            @foreach (var user in Model.Users)
+                        <tbody>
+                            @if (Model.Users != null && Model.Users.Any())
                             {
-                                <tr>
-                                    <!-- USER -->
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="rounded-circle d-flex align-items-center justify-content-center bg-light"
-                                                 style="width:56px;height:56px;">
-                                                <i class="ti ti-user text-muted"></i>
-                                            </div>
-
-                                            <div class="ms-3">
-                                                <h6 class="mb-0 fs-4">
-                                                    @(string.IsNullOrWhiteSpace(user.FullName) ? "No name" : user.FullName)
-                                                </h6>
-                                                <p class="mb-0 text-muted">ID: @user.Id</p>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <!-- EMAIL -->
-                                    <td>
-                                        <p class="mb-0">@user.Email</p>
-                                    </td>
-
-                                    <!-- ROLE -->
-                                    <td>
-                                        @if (user.Role == AppRoles.Admin)
-                                        {
-                                            <span class="badge text-bg-info">Admin</span>
-                                        }
-                                        else if (user.Role == AppRoles.Manager)
-                                        {
-                                            <span class="badge text-bg-primary">Manager</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge text-bg-secondary">User</span>
-                                        }
-                                    </td>
-
-                                    <!-- STATUS -->
-                                    <td>
-                                        @if (user.IsBlocked)
-                                        {
+                                @foreach (var user in Model.Users)
+                                {
+                                    <tr>
+                                        <!-- USER -->
+                                        <td>
                                             <div class="d-flex align-items-center">
-                                                <span class="text-bg-danger p-1 rounded-circle"></span>
-                                                <p class="mb-0 ms-2">Blocked</p>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="d-flex align-items-center">
-                                                <span class="text-bg-success p-1 rounded-circle"></span>
-                                                <p class="mb-0 ms-2">Active</p>
-                                            </div>
-                                        }
-                                    </td>
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center bg-light"
+                                                     style="width:56px;height:56px;">
+                                                    <i class="ti ti-user text-muted"></i>
+                                                </div>
 
-                                    <!-- ACTIONS -->
-                                    <td>
-                                        <div class="d-flex flex-column gap-3">
+                                                <div class="ms-3">
+                                                    <h6 class="mb-0 fs-4">
+                                                        @(string.IsNullOrWhiteSpace(user.FullName) ? "No name" : user.FullName)
+                                                    </h6>
+                                                    <p class="mb-0 user-id">ID: @user.Id</p>
+                                                </div>
+                                            </div>
+                                        </td>
 
+                                        <!-- EMAIL -->
+                                        <td>
+                                            <p class="mb-0">@user.Email</p>
+                                        </td>
+
+                                        <!-- CURRENT ROLE -->
+                                        <td>
                                             @if (user.Role == AppRoles.Admin)
                                             {
-                                                <!-- ROLE (disabled) -->
-                                                <div class="d-flex align-items-center gap-2">
+                                                <span class="badge text-bg-info">Admin</span>
+                                            }
+                                            else if (user.Role == AppRoles.Manager)
+                                            {
+                                                <span class="badge text-bg-primary">Manager</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge text-bg-secondary">User</span>
+                                            }
+                                        </td>
+
+                                        <!-- STATUS -->
+                                        <td>
+                                            @if (user.IsBlocked)
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <span class="text-bg-danger p-1 rounded-circle"></span>
+                                                    <p class="mb-0 ms-2">Blocked</p>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <span class="text-bg-success p-1 rounded-circle"></span>
+                                                    <p class="mb-0 ms-2">Active</p>
+                                                </div>
+                                            }
+                                        </td>
+
+                                        <!-- ROLE MANAGEMENT -->
+                                        <td class="role-management-cell">
+                                            @if (user.Role == AppRoles.Admin)
+                                            {
+                                                <div class="role-form">
                                                     <select class="form-select form-select-sm w-auto" disabled>
                                                         <option selected>Admin</option>
                                                     </select>
 
                                                     <button class="btn btn-light btn-sm text-muted border" disabled>
-                                                        Change disabled
+                                                        Not allowed
                                                     </button>
                                                 </div>
+                                            }
+                                            else
+                                            {
+                                                <form method="post" asp-action="ChangeRole" class="role-form">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="userId" value="@user.Id" />
 
-                                                <!-- PROTECTED -->
-                                                <div class="d-flex gap-2">
+                                                    <select name="newRole" class="form-select form-select-sm w-auto">
+                                                        <option value="@AppRoles.User" selected="@(user.Role == AppRoles.User)">User
+                                                        </option>
+                                                        <option value="@AppRoles.Manager"
+                                                                selected="@(user.Role == AppRoles.Manager)">Manager</option>
+                                                        <option value="@AppRoles.Admin">Admin</option>
+                                                    </select>
+
+                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                        Change
+                                                    </button>
+                                                </form>
+                                            }
+                                        </td>
+
+                                        <!-- ACTIONS -->
+                                        <td class="actions-cell">
+                                            @if (user.Role == AppRoles.Admin)
+                                            {
+                                                <div class="protected-group">
                                                     <button class="btn btn-light btn-sm text-muted border" disabled>
                                                         Protected
                                                     </button>
@@ -156,26 +229,7 @@
                                             }
                                             else
                                             {
-                                                <!-- ROLE CHANGE -->
-                                                <div>
-                                                    <form method="post" asp-action="ChangeRole" class="d-flex align-items-center gap-2 m-0">
-                                                        @Html.AntiForgeryToken()
-                                                        <input type="hidden" name="userId" value="@user.Id" />
-
-                                                        <select name="newRole" class="form-select form-select-sm w-auto">
-                                                            <option value="@AppRoles.User" selected="@(user.Role == AppRoles.User)">User</option>
-                                                            <option value="@AppRoles.Manager" selected="@(user.Role == AppRoles.Manager)">Manager</option>
-                                                            <option value="@AppRoles.Admin">Admin</option>
-                                                        </select>
-
-                                                        <button type="submit" class="btn btn-primary btn-sm">
-                                                            Change
-                                                        </button>
-                                                    </form>
-                                                </div>
-
-                                                <!-- BLOCK / DELETE -->
-                                                <div class="d-flex gap-2">
+                                                <div class="actions-group">
                                                     <form method="post" asp-action="ToggleBlock" class="m-0">
                                                         @Html.AntiForgeryToken()
                                                         <input type="hidden" name="userId" value="@user.Id" />
@@ -194,9 +248,7 @@
                                                         }
                                                     </form>
 
-                                                    <form method="post"
-                                                          asp-action="Delete"
-                                                          class="m-0"
+                                                    <form method="post" asp-action="Delete" class="m-0"
                                                           onsubmit="return confirm('Delete this user?');">
                                                         @Html.AntiForgeryToken()
                                                         <input type="hidden" name="userId" value="@user.Id" />
@@ -207,33 +259,48 @@
                                                     </form>
                                                 </div>
                                             }
-
-                                        </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center py-4">
+                                        No users found.
                                     </td>
                                 </tr>
                             }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="5" class="text-center py-4">
-                                    No users found.
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
 
-                <div class="d-flex align-items-center justify-content-end py-1">
-                    <p class="mb-0 fs-2">Rows per page:</p>
-                    <select class="form-select w-auto ms-2 me-4 py-1 border-0" disabled>
-                        <option selected>5</option>
-                    </select>
+                    <div class="d-flex align-items-center justify-content-end py-1 table-footer">
+                        <p class="mb-0 fs-2">Rows per page:</p>
+                        <select class="form-select w-auto ms-2 me-4 py-1 border-0" disabled>
+                            <option selected>5</option>
+                        </select>
 
-                    <p class="mb-0 fs-2">@Model.Users.Count user(s)</p>
+                        <p class="mb-0 fs-2">@Model.Users.Count user(s)</p>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const alerts = document.querySelectorAll(".admin-alert");
+
+        alerts.forEach(function (alertEl) {
+            setTimeout(function () {
+                alertEl.classList.remove("show");
+                alertEl.classList.add("hide");
+
+                setTimeout(function () {
+                    alertEl.remove();
+                }, 300);
+            }, 3000);
+        });
+    });
+</script>
